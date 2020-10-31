@@ -48,7 +48,10 @@
         "lines": 100,
         "statements": 100
       }
-    }
+    },
+    "setupFilesAfterEnv": [
+      "./jest-setup.ts"
+    ]
   },
   "husky": {
     "hooks": {
@@ -60,12 +63,16 @@
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.1",
     "@babel/preset-typescript": "^7.12.1",
+    "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.0",
     "@types/jest": "^26.0.15",
     "@types/node": "^14.14.6",
     "@types/react": "^16.9.55",
     "@types/react-dom": "^16.9.9",
+    "@types/react-redux": "^7.1.9",
+    "@types/react-router-dom": "^5.1.6",
     "@types/react-test-renderer": "^16.9.3",
+    "@types/redux-mock-store": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
     "autoprefixer": "^10.0.1",
@@ -73,6 +80,7 @@
     "chokidar": "^3.4.3",
     "clean-webpack-plugin": "^3.0.0",
     "concurrently": "^5.3.0",
+    "cross-fetch": "^3.0.6",
     "css-loader": "^5.0.0",
     "css-modules-typescript-loader": "^4.0.1",
     "eslint": "^7.2.0",
@@ -84,6 +92,7 @@
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.0.0",
     "eslint-watch": "^7.0.0",
+    "fetch-mock": "^9.10.7",
     "fibers": "^5.0.0",
     "html-webpack-plugin": "^4.5.0",
     "husky": "^4.3.0",
@@ -94,6 +103,7 @@
     "postcss-loader": "^4.0.4",
     "prettier": "^2.1.2",
     "react-test-renderer": "^17.0.1",
+    "redux-mock-store": "^1.5.4",
     "sass": "^1.28.0",
     "sass-loader": "^10.0.4",
     "style-loader": "^2.0.0",
@@ -115,7 +125,10 @@
     "react-dom": "^17.0.1",
     "react-hot-loader": "^4.13.0",
     "react-redux": "^7.2.2",
-    "react-router": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "typesafe-actions": "^5.1.0"
   },
   "optionalDependencies": {
     "fsevents": "^2.1.3"

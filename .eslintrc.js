@@ -16,7 +16,15 @@ module.exports = {
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: ['*.js', 'bin/**/*', '**/*.test.js', '**/*.test.tsx'],
+        devDependencies: [
+          '*.js',
+          'bin/**/*',
+          '**/*.test.js',
+          '**/*.test.ts',
+          '**/*.test.tsx',
+          'src/test-utils.tsx',
+          'jest-setup.ts',
+        ],
       },
     ],
   },
