@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import {
   RootState as PokemonState,
   pokemonReducer,
-} from './components/pokemon/reducers';
+} from './components/pokemon/List/reducers';
 
 export interface ApplicationState {
   pokemon: PokemonState;

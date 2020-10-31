@@ -1,9 +1,9 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as React from 'react';
-import { render, screen } from '../../test-utils';
+import { render, screen } from '../../../test-utils';
 import DetailsContainer from './Detail.container';
-import { RootState } from './reducers';
+import { RootState } from '../List/reducers';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

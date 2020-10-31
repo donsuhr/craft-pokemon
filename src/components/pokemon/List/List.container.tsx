@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { fetchItemsIfNeeded } from './actions';
 import List from './List';
-import { ApplicationState } from '../../reducers';
+import { ApplicationState } from '../../../reducers';
 import { Items } from './types';
 
 interface ListContainerProps {

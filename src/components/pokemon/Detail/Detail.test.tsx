@@ -2,7 +2,7 @@ import renderer from 'react-test-renderer';
 import * as React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
 import Detail from './Detail';
-import { Item } from './types';
+import { Item } from '../List/types';
 
 let container: HTMLElement | null;
 

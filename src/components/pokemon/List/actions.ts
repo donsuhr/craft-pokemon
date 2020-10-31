@@ -1,9 +1,9 @@
 import { action } from 'typesafe-actions';
 import { ThunkAction } from 'redux-thunk';
 import { Action } from 'redux';
-import config from '../../config';
+import config from '../../../config';
 import { PokemonActionTypes } from './types';
-import { ApplicationState } from '../../reducers';
+import { ApplicationState } from '../../../reducers';
 
 export const requestItems = () => action(PokemonActionTypes.REQUEST_ITEMS);
 export const receiveItems = (data: any) =>

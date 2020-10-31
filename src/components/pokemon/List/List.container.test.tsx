@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { render, screen } from '../../test-utils';
+import { render, screen } from '../../../test-utils';
 import ListContainer from './List.container';
 import { RootState } from './reducers';
 

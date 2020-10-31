@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { fetchItemsIfNeeded } from './actions';
-import { getItemById } from './reducers';
+import { fetchItemsIfNeeded } from '../List/actions';
+import { getItemById } from '../List/reducers';
 import Detail from './Detail';
-import { ApplicationState } from '../../reducers';
-import { Item } from './types';
+import { ApplicationState } from '../../../reducers';
+import { Item } from '../List/types';
 
 interface DetailsContainerProps {
   item: Item;

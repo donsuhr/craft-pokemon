@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Item } from './types';
+import { Item } from '../List/types';
 
 const PokemonDetail = ({ id, name, url }: Item) => {
   return (
