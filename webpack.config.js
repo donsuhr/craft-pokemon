@@ -11,7 +11,10 @@ const mode = production ? 'production' : 'development';
 const devServer = process.env.DEVSERVER
   ? // eslint-disable-next-line import/no-dynamic-require
     require(path.resolve(__dirname, process.env.DEVSERVER)).devServer
-  : {};
+  : {
+      historyApiFallback: true,
+      contentBase: [path.join(__dirname, 'dist'), path.join(__dirname, 'src')],
+    };
 
 const entry = ['./src/index.tsx'];
 

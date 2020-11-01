@@ -20,8 +20,9 @@ function fetchItems(): ThunkAction<
     const url =
       // process.env.NODE_ENV === 'production'
       // ? [> istanbul ignore next <]
-      `${config.api.url}/pokemon/?limit=151`;
+      `${config.pokeapi.url}/pokemon/?limit=151`;
     // '/components/pokemon/List/fixtures/items.json';
+
     return fetch(url)
       .then((response) => response.json())
       .then((json) => dispatch(receiveItems(json)));

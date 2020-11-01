@@ -19,17 +19,15 @@ function fetchItem(
     const url =
       // process.env.NODE_ENV === 'production'
       // ? [> istanbul ignore next <]
-      // `${config['craft-demo'].url}/${id}`;
-      '/components/pokemon/Map/fixtures/1.json';
-    setTimeout(() => {
-      fetch(url, {
-        headers: {
-          'x-api-key': config['craft-demo'].key,
-        },
-      })
-        .then((response) => response.json())
-        .then((json) => dispatch(receive(json, id)));
-    }, 4000);
+      `${config['craft-demo'].url}/${id}`;
+    // '/components/pokemon/Map/fixtures/1.json';
+    fetch(url, {
+      headers: {
+        'x-api-key': config['craft-demo'].key,
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => dispatch(receive(json, id)));
   };
 }
 

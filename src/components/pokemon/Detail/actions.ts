@@ -17,15 +17,16 @@ const fetcher = ({ id, dispatch }, done) => {
   const url =
     // process.env.NODE_ENV === 'production'
     // ? [> istanbul ignore next <]
-    // `${config.api.url}/pokemon/${id}`;
-    '/components/pokemon/Detail/fixtures/1.json';
+    `${config.pokeapi.url}/pokemon/${id}`;
+  // '/components/pokemon/Detail/fixtures/1.json';
   fetch(url)
     .then((response) => response.json())
     .then((json) => dispatch(receiveDetails(json, id)))
     .finally(done);
 };
 
-const q = qrate(fetcher, 1, 0.5);
+// concurrency, rateLimit x workers per second
+const q = qrate(fetcher, 4, 4);
 
 function fetchItem(
   id,
@@ -38,7 +39,7 @@ function fetchItem(
 
 function shouldFetch(state: ApplicationState, id) {
   const item = getItemById(state.pokemonDetail, id);
-  if (!item?.hasEverLoaded && parseInt(id, 10) < 3) {
+  if (!item?.hasEverLoaded) {
     return true;
   }
   return false;
