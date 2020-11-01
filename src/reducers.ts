@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import Fuse from 'fuse.js';
 import {
   RootState as PokemonState,
   pokemonReducer,
@@ -12,6 +13,9 @@ import { ui as uiReducer } from './components/ui/reducers';
 export interface ApplicationState {
   pokemon: PokemonState;
 }
+
+let currentFilter = '';
+
 export const rootReducer = combineReducers<ApplicationState>({
   pokemon: pokemonReducer,
   pokemonDetail: pokemonDetailReducer,
@@ -26,6 +30,18 @@ export function filterItems(state: ApplicationState) {
   const showAll = state.ui.viewAll;
   if (!showAll) {
     items = items.filter((x) => state.pokemonBag.includes(x.id));
+  }
+  const filterText = state.ui.filterText.trim();
+  if (filterText !== currentFilter || filterText !== '') {
+    currentFilter = filterText;
+    if (filterText === '') {
+      return items;
+    }
+    const options = {
+      keys: ['name'],
+    };
+    const fuse = new Fuse(items, options);
+    return fuse.search(filterText).map((x) => x.item);
   }
   return items;
 }
