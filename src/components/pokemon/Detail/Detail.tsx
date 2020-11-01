@@ -6,7 +6,7 @@ import Map from '../Map/Map.container';
 import Bag from '../Bag/Toggle';
 
 const PokemonDetail = ({ id, details }) => {
-  const { img, height, weight, types, name, base_experience: baseExperience } = details;
+  const { img, height, weight, types, name, baseExperience, abilities } = details;
   return (
     <>
       <h1>
@@ -29,6 +29,11 @@ const PokemonDetail = ({ id, details }) => {
           <Bag id={id} />
           <ul className={styles.typesList}>
             {types.map((x) => (
+              <li key={x}>{x}</li>
+            ))}
+          </ul>
+          <ul className={styles.typesList}>
+            {abilities.map((x) => (
               <li key={x}>{x}</li>
             ))}
           </ul>

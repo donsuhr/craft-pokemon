@@ -18,6 +18,7 @@ const pokemonDetail: RootState = {
       details: {
         img: 'img',
         types: ['one', 'two'],
+        abilities: ['one', 'two'],
         name: 'title target',
       },
       hasEverLoaded: true,

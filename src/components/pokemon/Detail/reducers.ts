@@ -10,7 +10,8 @@ const detailsState: Details = {
   height: 0,
   weight: 0,
   types: [],
-  baseExperience: 0
+  baseExperience: 0,
+  abilities: [],
 };
 
 const itemState = {
@@ -37,6 +38,7 @@ const details = (state = detailsState, data: any) => {
     weight: data.weight,
     baseExperience: data.base_experience,
     types: data.types.map(x => x.type.name),
+    abilities: data.abilities.map(x => x.ability.name),
   };
 };
 

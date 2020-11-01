@@ -3,7 +3,6 @@ import * as React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Detail from './Detail';
-import { Item } from '../List/types';
 
 let container: HTMLElement | null;
 jest.mock('../Map/Map.container', () => () => <div>target</div>);
@@ -28,6 +27,7 @@ describe('Detail', () => {
       img: 'img',
       types: ['one', 'two'],
       name: 'title target',
+        abilities: ['one', 'two'],
     };
 
     const sut = renderer.create(

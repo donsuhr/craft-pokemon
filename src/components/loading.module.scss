@@ -14,18 +14,18 @@ $loading-img-url: '/img/sprite_loading_v2.gif' !default;
   width: auto;
   min-width: 120px;
   height: 60px;
+  margin: 26px 0;
   padding: 10px;
   color: $loading-text-color;
   text-align: center;
   background-image: url($loading-img-url);
   background-repeat: no-repeat;
   background-position: 50% 50%;
-  margin: 26px 0;
 }
 
 .loading--with-background {
+  height: 75px;
   background: $loading-background-color url($loading-img-url) no-repeat 50% 13px;
   border-color: $loading-bg-color;
   border-radius: 0.5em;
-  height: 75px;
 }
