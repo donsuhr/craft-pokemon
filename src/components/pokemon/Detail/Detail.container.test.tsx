@@ -25,6 +25,9 @@ const pokemonDetail: RootState = {
     },
   },
 };
+
+const pokemonBag = [1];
+
 describe('Details Container', () => {
   it('Renders ', () => {
     render(
@@ -32,7 +35,7 @@ describe('Details Container', () => {
         <DetailsContainer id="1" />
       </Router>,
       {
-        store: mockStore({ pokemonDetail }),
+        store: mockStore({ pokemonDetail, pokemonBag }),
       },
     );
 

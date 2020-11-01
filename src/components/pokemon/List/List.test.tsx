@@ -23,13 +23,13 @@ describe('List', () => {
   });
 
   test('it renders', () => {
-    const items: Items = {
-      2: {
+    const items = [
+      {
         id: '2',
         name: 'name',
         url: 'http://',
       },
-    };
+    ];
     const sut = renderer.create(
       <Router>
         <List items={items} />

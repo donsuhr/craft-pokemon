@@ -4,14 +4,16 @@ import { Item, Items } from './types';
 import styles from './list.module.scss';
 
 // eslint-disable-next-line react/require-default-props
-const PokemonList = ({ items = {} }: { items?: Items }) => {
-  const list: Item[] = Object.values(items);
+const PokemonList = ({ items = [] }: { items?: Items }) => {
+  // const list: Item[] = Object.values(items);
   return (
-    <ul className={styles.list}>
-      {list.map((x) => (
-        <ListItem key={x.id} id={x.id} name={x.name} />
-      ))}
-    </ul>
+    <>
+      <ul className={styles.list}>
+        {items.map((x) => (
+          <ListItem key={x.id} id={x.id} name={x.name} />
+        ))}
+      </ul>
+    </>
   );
 };
 

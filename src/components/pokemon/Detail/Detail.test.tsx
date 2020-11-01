@@ -7,6 +7,7 @@ import { Item } from '../List/types';
 
 let container: HTMLElement | null;
 jest.mock('../Map/Map.container', () => () => <div>target</div>);
+jest.mock('../Bag/Toggle', () => () => <div>target</div>);
 
 describe('Detail', () => {
   beforeEach(() => {

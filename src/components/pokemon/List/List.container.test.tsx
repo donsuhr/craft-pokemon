@@ -18,6 +18,11 @@ const pokemon: RootState = {
   hasEverLoaded: true,
   isFetching: false,
 };
+const ui = {
+  viewAll: true,
+  filterText: '',
+  };
+  
 describe('List Container', () => {
   it('Renders ', () => {
     render(
@@ -25,7 +30,7 @@ describe('List Container', () => {
         <ListContainer />
       </Router>,
       {
-        store: mockStore({ pokemon }),
+        store: mockStore({ pokemon , ui}),
       },
     );
 
@@ -42,7 +47,7 @@ describe('List Container', () => {
         <ListContainer />
       </Router>,
       {
-        store: mockStore({ pokemon: pokemonLocal }),
+        store: mockStore({ pokemon: pokemonLocal, ui }),
       },
     );
 

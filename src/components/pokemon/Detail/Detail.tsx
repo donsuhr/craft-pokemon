@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Item } from '../List/types';
 import styles from './detail.module.scss';
 import Map from '../Map/Map.container';
+import Bag from '../Bag/Toggle';
 
 const PokemonDetail = ({ id, details }) => {
   const { img, height, weight, types, name, base_experience: baseExperience } = details;
@@ -25,6 +26,7 @@ const PokemonDetail = ({ id, details }) => {
             <dt>Base Experience</dt>
             <dd>{baseExperience}</dd>
           </dl>
+          <Bag id={id} />
           <ul className={styles.typesList}>
             {types.map((x) => (
               <li key={x}>{x}</li>
