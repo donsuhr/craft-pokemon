@@ -5,6 +5,7 @@ import { fetchItemsIfNeeded } from './actions';
 import List from './List';
 import { ApplicationState } from '../../../reducers';
 import { Items } from './types';
+import Loading from '../../Loading';
 
 interface ListContainerProps {
   items: Items;
@@ -17,16 +18,11 @@ const ListContainer = ({ items, isFetching }: ListContainerProps) => {
     dispatch(fetchItemsIfNeeded());
   }, []);
 
-  return (
-    <div>
-      <p>
-        isFetching:
-        {isFetching ? 'true' : 'false'}
-      </p>
-
-      <List items={items} />
-    </div>
-  );
+  if (isFetching) {
+    return <Loading>Loading...</Loading>;
+  } 
+    return <List items={items} />;
+  
 };
 
 function mapStateToProps(state: ApplicationState) {

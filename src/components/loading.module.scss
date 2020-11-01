@@ -1,0 +1,29 @@
+$loading-bg-color: #666;
+$loading-text-color: #fff;
+$loading-background-color: rgba(0, 0, 0, 0.5);
+$loading-img-url: 'img/sprite_loading_v2.gif' !default;
+
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: auto;
+  min-width: 120px;
+  height: 60px;
+  padding: 10px;
+  color: $loading-text-color;
+  text-align: center;
+  background-image: url($loading-img-url);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
+
+.loading--with-background {
+  background: $loading-background-color url($loading-img-url) no-repeat 50% 13px;
+  border-color: $loading-bg-color;
+  border-radius: 0.5em;
+}

@@ -89,6 +89,7 @@ module.exports = {
               importLoaders: 1,
               modules: true,
               sourceMap: true,
+              url: false,
             },
           },
           {
