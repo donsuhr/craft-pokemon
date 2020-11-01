@@ -9,6 +9,8 @@ import { RootState } from '../List/reducers';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
+jest.mock('../Map/Map.container', () => () => <div>target</div>);
+
 const pokemonDetail: RootState = {
   byId: {
     1: {

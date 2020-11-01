@@ -3,45 +3,47 @@ import { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { fetchIfNeeded } from './actions';
 import { getItemById } from './reducers';
-import Detail from './Detail';
+import PokemonMap from './Map';
 import { ApplicationState } from '../../../reducers';
 import { Item } from '../List/types';
 import Loading from '../../Loading';
 
-interface DetailsContainerProps {
-  item: Item;
+interface ContainerProps {
+  id: Item;
   isFetching: boolean;
+  locations: Array;
 }
 
 interface OwnPropsType {
   id: string;
 }
 
-const DetailsContainer = ({
+const Container = ({
   id,
-  details,
+  locations,
   isFetching,
-}: DetailsContainerProps) => {
+}: ContainerProps) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchIfNeeded(id));
   }, []);
 
-  if (isFetching || details?.name === '') {
+  if (isFetching) {
     return <Loading withBg>Loading...</Loading>;
   }
-  return <Detail id={id} details={details} />;
+  return <PokemonMap id={id} locations={locations} />;
+  
 };
 
 function mapStateToProps(state: ApplicationState, ownProps: OwnPropsType) {
-  const item = getItemById(state.pokemonDetail, ownProps.id);
+  const item = getItemById(state.pokemonMap, ownProps.id);
   return {
     id: ownProps.id,
     isFetching: item.isFetching,
-    details: item.details  
+    locations: item.locations  
   };
 }
 
-const DetailsConnected = connect(mapStateToProps)(DetailsContainer);
+const Connected = connect(mapStateToProps)(Container);
 
-export default DetailsConnected;
+export default Connected as MapContainer;

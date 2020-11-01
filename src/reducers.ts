@@ -5,6 +5,7 @@ import {
 } from './components/pokemon/List/reducers';
 
 import { reducers as pokemonDetailReducer } from './components/pokemon/Detail/reducers';
+import { reducers as pokemonMapReducer } from './components/pokemon/Map/reducers';
 
 export interface ApplicationState {
   pokemon: PokemonState;
@@ -12,4 +13,5 @@ export interface ApplicationState {
 export const rootReducer = combineReducers<ApplicationState>({
   pokemon: pokemonReducer,
   pokemonDetail: pokemonDetailReducer,
+  pokemonMap: pokemonMapReducer,
 });

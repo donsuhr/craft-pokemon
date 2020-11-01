@@ -6,6 +6,7 @@ import Detail from './Detail';
 import { Item } from '../List/types';
 
 let container: HTMLElement | null;
+jest.mock('../Map/Map.container', () => () => <div>target</div>);
 
 describe('Detail', () => {
   beforeEach(() => {

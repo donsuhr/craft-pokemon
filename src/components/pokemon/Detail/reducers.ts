@@ -1,7 +1,7 @@
 import { Reducer, combineReducers } from 'redux';
 import { PokemonDetailsActionTypes, Details } from './types';
 
-const defaultImg = 'img/default.png';
+const defaultImg = '/img/default.png';
 
 const detailsState: Details = {
   name: '',
@@ -10,7 +10,7 @@ const detailsState: Details = {
   height: 0,
   weight: 0,
   types: [],
-  base_experience: 0
+  baseExperience: 0
 };
 
 const itemState = {
@@ -35,7 +35,7 @@ const details = (state = detailsState, data: any) => {
     img: getImgFromData(data),
     height: data.height,
     weight: data.weight,
-    base_experience: data.base_experience,
+    baseExperience: data.base_experience,
     types: data.types.map(x => x.type.name),
   };
 };

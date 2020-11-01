@@ -2,13 +2,15 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Item } from '../List/types';
 import styles from './detail.module.scss';
+import Map from '../Map/Map.container';
 
 const PokemonDetail = ({ id, details }) => {
-  const { img, height, weight, types, name, base_experience } = details;
+  const { img, height, weight, types, name, base_experience: baseExperience } = details;
   return (
     <>
       <h1>
         Pokemon San Diego Designs -
+        {' '}
         {name}
       </h1>
       <div className={styles.container}>
@@ -21,7 +23,7 @@ const PokemonDetail = ({ id, details }) => {
             <dt>Weight</dt>
             <dd>{weight}</dd>
             <dt>Base Experience</dt>
-            <dd>{base_experience}</dd>
+            <dd>{baseExperience}</dd>
           </dl>
           <ul className={styles.typesList}>
             {types.map((x) => (
@@ -29,7 +31,9 @@ const PokemonDetail = ({ id, details }) => {
             ))}
           </ul>
         </div>
-        <div className={styles.mapWrapper}>map</div>
+        <div className={styles.mapWrapper}>
+          <Map id={id} />
+        </div>
       </div>
       <Link to="/">Back</Link>
     </>
