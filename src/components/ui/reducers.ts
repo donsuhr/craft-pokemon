@@ -1,4 +1,3 @@
-
 import { UiActionTypes } from './types';
 
 const initialState = {

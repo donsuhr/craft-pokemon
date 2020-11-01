@@ -20,8 +20,12 @@ const component = ({
     }
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
+
   return (
-    <form className={styles.toggle}>
+    <form className={styles.toggle} onSubmit={handleSubmit}>
       <ul>
         {items.map((x, i) => {
           const id = `Toggle${i}${idSuffix}`;
