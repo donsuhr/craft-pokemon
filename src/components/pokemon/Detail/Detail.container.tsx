@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { fetchItemsIfNeeded } from '../List/actions';
-import { getItemById } from '../List/reducers';
+import { fetchIfNeeded } from './actions';
+import { getItemById } from './reducers';
 import Detail from './Detail';
 import { ApplicationState } from '../../../reducers';
 import { Item } from '../List/types';
+import Loading from '../../Loading';
 
 interface DetailsContainerProps {
   item: Item;
@@ -17,30 +18,27 @@ interface OwnPropsType {
 }
 
 const DetailsContainer = ({
-  item: { id, name, url },
+  id,
+  details,
   isFetching,
 }: DetailsContainerProps) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchItemsIfNeeded());
+    dispatch(fetchIfNeeded(id));
   }, []);
 
-  return (
-    <div>
-      <p>
-        isFetching:
-        {isFetching ? 'true' : 'false'}
-      </p>
-
-      <Detail id={id} name={name} url={url} />
-    </div>
-  );
+  if (isFetching) {
+    return <Loading withBg>Loading...</Loading>;
+  }
+  return <Detail id={id} details={details} />;
 };
 
 function mapStateToProps(state: ApplicationState, ownProps: OwnPropsType) {
+  const item = getItemById(state.pokemonDetail, ownProps.id);
   return {
-    item: getItemById(state.pokemon, ownProps.id),
-    isFetching: state.pokemon.isFetching,
+    id: ownProps.id,
+    isFetching: item.isFetching,
+    details: item.details  
   };
 }
 

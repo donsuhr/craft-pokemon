@@ -9,6 +9,8 @@ import { RootState } from './reducers';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
+jest.mock('./ListItem.container', () => () => <div>target</div>);
+
 const pokemon: RootState = {
   byId: {
     1: { id: '1', name: 'title target', url: 'url' },
@@ -27,7 +29,7 @@ describe('List Container', () => {
       },
     );
 
-    expect(screen.getByText(/title target/i)).toBeInTheDocument();
+    expect(screen.getByText(/target/i)).toBeInTheDocument();
   });
 
   it('will show loading ', () => {
@@ -44,6 +46,6 @@ describe('List Container', () => {
       },
     );
 
-    expect(screen.getByText(/true/i)).toBeInTheDocument();
+    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
   });
 });

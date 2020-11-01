@@ -2,10 +2,10 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { fetchItemsIfNeeded } from './actions';
-import List from './List';
 import { ApplicationState } from '../../../reducers';
 import { Items } from './types';
 import Loading from '../../Loading';
+import List from './List';
 
 interface ListContainerProps {
   items: Items;
@@ -19,10 +19,9 @@ const ListContainer = ({ items, isFetching }: ListContainerProps) => {
   }, []);
 
   if (isFetching) {
-    return <Loading>Loading...</Loading>;
-  } 
-    return <List items={items} />;
-  
+    return <Loading withBg>Loading...</Loading>;
+  }
+  return <List items={items} />;
 };
 
 function mapStateToProps(state: ApplicationState) {

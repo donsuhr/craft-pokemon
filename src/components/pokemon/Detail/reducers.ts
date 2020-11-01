@@ -7,6 +7,10 @@ const detailsState: Details = {
   name: '',
   id: '0',
   img: defaultImg,
+  height: 0,
+  weight: 0,
+  types: [],
+  base_experience: 0
 };
 
 const itemState = {
@@ -29,6 +33,10 @@ const details = (state = detailsState, data: any) => {
     id: data.id,
     name: data.name,
     img: getImgFromData(data),
+    height: data.height,
+    weight: data.weight,
+    base_experience: data.base_experience,
+    types: data.types.map(x => x.type.name),
   };
 };
 

@@ -1,7 +1,7 @@
 $loading-bg-color: #666;
 $loading-text-color: #fff;
 $loading-background-color: rgba(0, 0, 0, 0.5);
-$loading-img-url: 'img/sprite_loading_v2.gif' !default;
+$loading-img-url: '/img/sprite_loading_v2.gif' !default;
 
 .loading {
   position: absolute;
@@ -20,10 +20,12 @@ $loading-img-url: 'img/sprite_loading_v2.gif' !default;
   background-image: url($loading-img-url);
   background-repeat: no-repeat;
   background-position: 50% 50%;
+  margin: 26px 0;
 }
 
 .loading--with-background {
   background: $loading-background-color url($loading-img-url) no-repeat 50% 13px;
   border-color: $loading-bg-color;
   border-radius: 0.5em;
+  height: 75px;
 }

@@ -1,6 +1,7 @@
 import renderer from 'react-test-renderer';
 import * as React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Detail from './Detail';
 import { Item } from '../List/types';
 
@@ -21,13 +22,16 @@ describe('Detail', () => {
   });
 
   test('it renders', () => {
-    const item: Item = {
-      id: '2',
-      name: 'title',
-      url: 'body',
+    const details = {
+      img: 'img',
+      types: ['one', 'two'],
+      name: 'title target',
     };
+
     const sut = renderer.create(
-      <Detail id={item.id} name={item.name} url={item.url} />,
+      <Router>
+        <Detail id="1" details={details} />
+      </Router>,
     );
     expect(sut.toJSON()).toMatchSnapshot();
   });

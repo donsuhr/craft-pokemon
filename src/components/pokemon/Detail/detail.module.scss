@@ -1,0 +1,67 @@
+$theme-red: #f00;
+$theme-dark-red: #c00;
+$theme-blue: #3b4cca;
+$theme-yellow: #ffde00;
+$theme-dark-yellow: #b3a125;
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.details {
+  width: 100%;
+  margin-bottom: 26px;
+
+  @media (min-width: 550px) {
+    width: 33%;
+    padding-right: 13px;
+  }
+}
+
+.name {
+  margin-top: 0;
+  color: $theme-blue;
+  font-weight: bold;
+  text-align: center;
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 13px;
+  object-fit: scale-down;
+  border: 1px solid $theme-dark-red;
+}
+
+.mapWrapper {
+  width: 66%;
+}
+
+.statList {
+  display: flex;
+  flex-wrap: wrap;
+
+  dt {
+    width: 50%;
+  }
+
+  dd {
+    width: 50%;
+    margin-left: auto;
+  }
+}
+
+.typesList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  li {
+    flex: 0 1 25%;
+  }
+}

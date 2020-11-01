@@ -6,6 +6,7 @@ import List from './List';
 import { Items } from './types';
 
 let container: HTMLElement | null;
+jest.mock('./ListItem.container', () => () => <div>target</div>);
 
 describe('List', () => {
   beforeEach(() => {
@@ -37,7 +38,7 @@ describe('List', () => {
     expect(sut.toJSON()).toMatchSnapshot();
   });
 
-  test.only('it renders empty', () => {
+  test('it renders empty', () => {
     const sut = renderer.create(<List />);
     expect(sut.toJSON()).toMatchSnapshot();
   });

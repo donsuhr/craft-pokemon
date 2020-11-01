@@ -8,8 +8,7 @@ interface ParamTypes {
 const DetailsPage = () => {
   const { id } = useParams<ParamTypes>();
   return (
-    <section>
-      <h1>Details</h1>
+    <section className="container">
       <Detail id={id} />
     </section>
   );

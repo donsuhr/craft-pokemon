@@ -9,9 +9,9 @@ import { ApplicationState } from '../../../reducers';
 import { getItemById } from './reducers';
 
 export const requestDetails = (id) =>
-  action(PokemonDetailsActionTypes.REQUEST_DETAILS, {id});
+  action(PokemonDetailsActionTypes.REQUEST_DETAILS, { id });
 export const receiveDetails = (data: any, id) =>
-  action(PokemonDetailsActionTypes.RECEIVE_DETAILS, {data, id});
+  action(PokemonDetailsActionTypes.RECEIVE_DETAILS, { data, id });
 
 const fetcher = ({ id, dispatch }, done) => {
   const url =
@@ -31,7 +31,7 @@ function fetchItem(
   id,
 ): ThunkAction<void, ApplicationState, unknown, Action<string>> {
   return (dispatch) => {
-  dispatch(requestDetails(id));
+    dispatch(requestDetails(id));
     q.push({ id, dispatch });
   };
 }
