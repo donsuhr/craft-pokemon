@@ -8,6 +8,7 @@ dist/
 coverage/
 Session.vim
 __snapshots__/
-/webpack.suhrthing-devserver.config.js
+/webpack.suhrthing.js
 .stylelintcache
 *.scss.d.ts
+wip.txt
