@@ -4,6 +4,101 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <!--
+    <link rel="apple-touch-icon" sizes="180x180" href="<%= process.env.NODE_ENV === 'production' ? '/projects/queue': '' %>/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="<%= process.env.NODE_ENV === 'production' ? '/projects/queue': '' %>/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<%= process.env.NODE_ENV === 'production' ? '/projects/queue': '' %>/icons/favicon-16x16.png">
+    <link rel="manifest" href="<%= process.env.NODE_ENV === 'production' ? '/projects/queue': '' %>/site.webmanifest">
+    <link rel="mask-icon" href="<%= process.env.NODE_ENV === 'production' ? '/projects/queue': '' %>/icons/safari-pinned-tab.svg" color="#2d89ef">
+    <meta name="msapplication-config" content="<%= process.env.NODE_ENV === 'production' ? '/projects/queue': '' %>/browserconfig.xml">
+    -->
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/images/icons.svg" color="#ffde00" />
+    <meta
+      name="apple-mobile-web-app-title"
+      content="<%= htmlWebpackPlugin.options.title %>"
+    />
+    <meta
+      name="application-name"
+      content="<%= htmlWebpackPlugin.options.title %>"
+    />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="/icons/apple-icon-57x57.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="60x60"
+      href="/icons/apple-icon-60x60.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="/icons/apple-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="/icons/apple-icon-76x76.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="/icons/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="/icons/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/icons/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/icons/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/icons/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/icons/android-icon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/icons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="/icons/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/icons/favicon-16x16.png"
+    />
+    <meta name="msapplication-TileColor" content="#ffde00" />
+    <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png" />
+    <meta
+      name="application-name"
+      content="<%= htmlWebpackPlugin.options.title %>"
+    />
+    <meta name="theme-color" content="#ffde00" />
   </head>
   <body>
     <div id="App"></div>

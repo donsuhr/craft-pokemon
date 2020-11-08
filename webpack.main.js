@@ -19,8 +19,6 @@ const plugins = [
   }),
   new CopyPlugin({
     patterns: [
-      { from: 'src/browserconfig.xml' },
-      { from: 'src/favicon.ico' },
       { from: 'src/site.webmanifest' },
       { from: 'src/icons', to: 'icons' },
       { from: 'src/img', to: 'img' },
