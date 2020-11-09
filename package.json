@@ -24,7 +24,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --cache",
     "lint:styles": "stylelint \"./src/**/*.scss\" --cache ",
     "pre-commit": "npm run check-types && npm run test:coverage && npm run lint && npm run lint:styles",
-    "start": "webpack serve --hot",
+    "start": "rm -rf ./dist && webpack serve --hot",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
