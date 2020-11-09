@@ -3,13 +3,21 @@ import { useState, useRef } from 'react';
 
 import styles from './Search.module.scss';
 
-const component = ({
+interface Props {
+  label?: string; // eslint-disable-line react/require-default-props
+  initialVal?: string; // eslint-disable-line react/require-default-props
+  name?: string; // eslint-disable-line react/require-default-props
+  idSuffix?: string; // eslint-disable-line react/require-default-props
+  onChange?: (x: any) => any; // eslint-disable-line react/require-default-props
+}
+
+export default function Search({
   initialVal = '',
   idSuffix = 'search',
   name = 'search',
   label = 'Search',
   onChange,
-}) => {
+}: Props) {
   const [val, updateVal] = useState(initialVal);
   const textInput = useRef(null);
 
@@ -21,16 +29,17 @@ const component = ({
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
 
-  const id = `Search{i}${idSuffix}`;
+  const id = `Search${idSuffix}`;
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <input
         type="search"
         placeholder="Search..."
+        // @ts-ignore: non-standard, webkit / blink only
         incremental="true"
         id={id}
         ref={textInput}
@@ -41,6 +50,4 @@ const component = ({
       <label htmlFor={id}>{label}</label>
     </form>
   );
-};
-
-export default component as ListViewToggle;
+}
