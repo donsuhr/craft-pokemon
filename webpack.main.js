@@ -46,7 +46,10 @@ if (production) {
       swSrc: './src/sw.ts',
     }),
   );
-} else if (process.env.DEV_USE_SW_FOR_RUNTIME === 'true') {
+} else if (
+  process.env.DEV_USE_SW_FOR_RUNTIME === 'true' ||
+  process.env.DEV_USE_SW_FOR_API === 'true'
+) {
   plugins.push(
     new InjectManifest({
       swSrc: './src/sw.ts',
@@ -63,7 +66,6 @@ module.exports = {
     contentBase: [path.join(__dirname, 'dist'), path.join(__dirname, 'src')],
   },
   plugins,
-
   optimization: {
     runtimeChunk: 'single',
     splitChunks: {
