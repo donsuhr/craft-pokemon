@@ -3,8 +3,13 @@ import thunkMiddleware from 'redux-thunk';
 import persistState from 'redux-localstorage';
 import { ApplicationState, rootReducer } from './reducers';
 
-const enhancer = compose(
-  applyMiddleware(thunkMiddleware),
+const composeEnhancers =
+  typeof window === 'object' &&
+  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+    : compose;
+
+const enhancer = composeEnhancers(
   persistState('pokemonBag', { key: 'pokemonBag' }),
 );
 
