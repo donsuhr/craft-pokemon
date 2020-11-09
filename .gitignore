@@ -12,3 +12,4 @@ __snapshots__/
 .stylelintcache
 *.scss.d.ts
 wip.txt
+/stats.json

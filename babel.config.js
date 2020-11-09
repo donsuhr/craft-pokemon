@@ -1,5 +1,5 @@
 const presets = ['@babel/preset-typescript', '@babel/preset-react'];
-const plugins = ['react-hot-loader/babel'];
+const plugins = [];
 
 if (process.env.NODE_ENV === 'test') {
   presets.push([
@@ -18,6 +18,9 @@ if (process.env.NODE_ENV === 'test') {
       targets: 'last 1 Chrome versions',
     },
   ]);
+  if (process.env.NODE_ENV !== 'production') {
+    plugins.push('react-refresh/babel');
+  }
 }
 
 module.exports = { presets, plugins };

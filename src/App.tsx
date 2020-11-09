@@ -1,6 +1,6 @@
 import React from 'react';
 import { Store } from 'redux';
-import { hot } from 'react-hot-loader/root';
+// import { hot } from 'react-hot-loader/root';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Home from './pages/Home';
@@ -26,4 +26,4 @@ const App = ({ store }: AppProps) => (
   </Provider>
 );
 
-export default hot(App);
+export default App;

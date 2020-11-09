@@ -1,5 +1,6 @@
-const webpack = require('webpack');
 const path = require('path');
+const webpack = require('webpack');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
@@ -28,40 +29,47 @@ const plugins = [
       },
     ],
   }),
-
-  new MiniCssExtractPlugin({
-    filename: production
-      ? 'styles/[name]-[chunkhash].css'
-      : 'styles/[name].css',
-    chunkFilename: production
-      ? 'styles/[name]-[chunkhash].css'
-      : 'styles/[name].css',
-  }),
 ];
 
 if (production) {
   plugins.push(new webpack.ids.HashedModuleIdsPlugin());
   plugins.push(
-    new InjectManifest({
-      swSrc: './src/sw.ts',
+    new MiniCssExtractPlugin({
+      filename: production
+        ? 'styles/[name]-[chunkhash].css'
+        : 'styles/[name].css',
+      chunkFilename: production
+        ? 'styles/[name]-[chunkhash].css'
+        : 'styles/[name].css',
     }),
   );
-} else if (
-  process.env.DEV_USE_SW_FOR_RUNTIME === 'true' ||
-  process.env.DEV_USE_SW_FOR_API === 'true'
-) {
+
   plugins.push(
     new InjectManifest({
       swSrc: './src/sw.ts',
-      exclude: [/\.hot-update\./],
-      maximumFileSizeToCacheInBytes: 5000000,
     }),
   );
+} else {
+  if (
+    process.env.DEV_USE_SW_FOR_RUNTIME === 'true' ||
+    process.env.DEV_USE_SW_FOR_API === 'true'
+  ) {
+    plugins.push(
+      new InjectManifest({
+        swSrc: './src/sw.ts',
+        exclude: [/\.hot-update\./],
+        maximumFileSizeToCacheInBytes: 5000000,
+      }),
+    );
+  }
+
+  plugins.push(new ReactRefreshWebpackPlugin());
 }
 
 module.exports = {
   entry,
   devServer: {
+    hot: true,
     historyApiFallback: true,
     contentBase: [path.join(__dirname, 'dist'), path.join(__dirname, 'src')],
   },
