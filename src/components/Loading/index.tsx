@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, ReactNode } from 'react';
 import classNames from 'classnames/bind';
-import styles from './loading.module.scss';
+import styles from './Loading.module.scss';
 
 const cx = classNames.bind(styles as any);
 
