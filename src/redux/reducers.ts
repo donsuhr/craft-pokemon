@@ -1,18 +1,32 @@
-import { combineReducers } from 'redux';
+import { combineReducers, Action } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 import Fuse from 'fuse.js';
 import {
   RootState as PokemonState,
   pokemonReducer,
-} from './components/pokemon/List/reducers';
+  getItemById,
+} from '../components/pokemon/List/reducers';
 
-import { reducers as pokemonDetailReducer } from './components/pokemon/Detail/reducers';
-import { reducers as pokemonMapReducer } from './components/pokemon/Map/reducers';
-import { bag as pokemonBagReducer } from './components/pokemon/Bag/reducers';
-import { ui as uiReducer } from './components/ui/reducers';
+import {
+  reducers as pokemonDetailReducer,
+  PokemonDetailState,
+  getItemById as itemDetailById,
+} from '../components/pokemon/Detail/reducers';
+import { reducers as pokemonMapReducer } from '../components/pokemon/Map/reducers';
+import { bag as pokemonBagReducer } from '../components/pokemon/Bag/reducers';
+import { ui as uiReducer } from './ui/reducers';
 
 export interface ApplicationState {
   pokemon: PokemonState;
+  pokemonDetail: PokemonDetailState;
 }
+
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  ApplicationState,
+  unknown,
+  Action<string>
+>;
 
 let currentFilter = '';
 
@@ -44,4 +58,13 @@ export function filterItems(state: ApplicationState) {
     return fuse.search(filterText).map((x) => x.item);
   }
   return items;
+}
+
+const getDetailState = (state: ApplicationState) => state.pokemonDetail;
+export const getBagState = (state: ApplicationState) => {
+  return state.pokemonBag;
+};
+
+export function getItemDetailById(state: ApplicationState, id: string) {
+  return itemDetailById(getDetailState(state), id);
 }

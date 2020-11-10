@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import persistState from 'redux-localstorage';
 import { ApplicationState, rootReducer } from './reducers';
-import syncServiceWorker from './components/pokemon/Bag/syncServiceWorker';
+import syncServiceWorker from '../components/pokemon/Bag/syncServiceWorker';
 
 const composeEnhancers =
   typeof window === 'object' &&

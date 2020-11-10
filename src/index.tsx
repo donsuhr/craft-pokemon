@@ -4,7 +4,7 @@ import 'timers-browserify';
 import App from './App';
 import './styles/main.scss';
 
-import configureStore from './configureStore';
+import configureStore from './redux/configureStore';
 
 const store = configureStore();
 

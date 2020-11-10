@@ -1,9 +1,12 @@
-import { PokemonBagActionTypes } from "./types";
-import { getBagItems } from "./reducers";
-import { getBagState } from '../../../reducers';
-import { RootActionTypes } from '../../../types';
+import { Middleware } from 'redux';
+import { PokemonBagActionTypes } from './types';
+import { getBagItems } from './reducers';
+import { getBagState } from '../../../redux/reducers';
+import { RootActionTypes } from '../../../redux/types';
 
-const syncServiceWorkerMiddleware = (store) => (next) => (action) => {
+const syncServiceWorkerMiddleware: Middleware = (store) => (next) => (
+  action,
+) => {
   if (
     action.type === RootActionTypes.INIT ||
     action.type === PokemonBagActionTypes.ADD ||
@@ -13,7 +16,7 @@ const syncServiceWorkerMiddleware = (store) => (next) => (action) => {
     const inBag = getBagItems(bagState);
 
     navigator.serviceWorker.ready.then(() => {
-      navigator.serviceWorker.controller.postMessage({
+      navigator?.serviceWorker?.controller?.postMessage({
         type: 'bagUpdated',
         payload: inBag,
       });

@@ -1,12 +1,11 @@
 import { action } from 'typesafe-actions';
-import { ThunkAction } from 'redux-thunk';
-import { Action } from 'redux';
 import qrate from 'qrate';
 import config from '../../../config';
 import { PokemonDetailsActionTypes } from './types';
 import { ApplicationState } from '../../../reducers';
+import { PokemonDetailState, getItemById } from './reducers';
+import { AppThunk } from '../../../redux/reducers';
 
-import { getItemById } from './reducers';
 
 export const requestDetails = (id) =>
   action(PokemonDetailsActionTypes.REQUEST_DETAILS, { id });
