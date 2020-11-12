@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'timers-browserify';
+import { storeInitted } from '@/store/actions';
+import configureStore from '@/store/configure-store';
 import App from './App';
 import './styles/main.scss';
-import { storeInitted } from './redux/actions';
-
-import configureStore from './redux/configureStore';
 
 const store = configureStore();
 store.dispatch(storeInitted());
@@ -19,7 +18,6 @@ if (
   process.env.DEV_USE_SW_FOR_API === 'true'
 ) {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
+    navigator.serviceWorker.register('/sw.js');
   }
 }
-

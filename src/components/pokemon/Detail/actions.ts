@@ -1,9 +1,9 @@
 // @ts-ignore
 import qrate from 'qrate';
-import config from '../../../config';
+import { AppThunk } from '@/store/types';
+import { getDetailState } from '@/store/selectors';
+import config from '@/config';
 import { shouldFetch } from './reducers';
-import { AppThunk } from '../../../redux/types';
-import { getDetailState } from '../../../redux/selectors';
 import { receiveDetails, requestDetails } from './actions-sync';
 
 type FetcherFn = (

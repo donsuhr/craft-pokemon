@@ -1,11 +1,12 @@
 import { UiActionTypes } from './types';
+import { ActionTypes } from './actions';
 
 const initialState = {
   viewAll: true,
   filterText: '',
-}
+};
 
-export const ui = (state = initialState, action) => {
+export const ui = (state = initialState, action: ActionTypes) => {
   switch (action.type) {
     case UiActionTypes.SET_VIEW_ALL:
       return { ...state, viewAll: action.payload };
@@ -17,4 +18,3 @@ export const ui = (state = initialState, action) => {
 };
 
 export type UiState = ReturnType<typeof ui>;
-

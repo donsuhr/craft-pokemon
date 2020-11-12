@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Home from './pages/Home';
 import Details from './pages/Details';
-import { ApplicationState } from './reducers';
+import { ApplicationState } from './store/types';
 
 export interface AppProps {
   store: Store<ApplicationState>;

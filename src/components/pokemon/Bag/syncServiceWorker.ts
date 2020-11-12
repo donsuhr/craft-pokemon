@@ -1,8 +1,8 @@
 import { Middleware } from 'redux';
+import { getBagState } from '@/store/selectors';
+import { RootActionTypes } from '@/store/types';
 import { PokemonBagActionTypes } from './types';
 import { getBagItems } from './reducers';
-import { getBagState } from '../../../redux/reducers';
-import { RootActionTypes } from '../../../redux/types';
 
 const syncServiceWorkerMiddleware: Middleware = (store) => (next) => (
   action,

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ApplicationState, getBagState } from '../../../redux/reducers';
+import { ApplicationState } from '@/store/types';
+import { getBagState } from '@/store/selectors';
 import { getInBag } from './reducers';
 import { add, remove } from './actions';
 import styles from './InBagCheckbox.module.scss';

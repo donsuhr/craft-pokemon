@@ -12,6 +12,7 @@ module.exports = {
     extensions: ['.tsx', '.jsx', '.ts', '.js'],
     alias: {
       'react-dom': '@hot-loader/react-dom',
+      '@': path.resolve(__dirname, 'src'),
     },
   },
 
