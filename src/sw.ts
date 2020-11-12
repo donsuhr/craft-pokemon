@@ -1,4 +1,4 @@
-/* global serviceWorkerVersion, serviceWorkerOption, process */
+/* global serviceWorkerVersion */
 /* eslint-env serviceworker */
 /* chrome://serviceworker-internals/ */
 
@@ -20,9 +20,9 @@ declare const self: ServiceWorkerGlobalScope;
 const VERSION: string = serviceWorkerVersion;
 const APP_NAME: string = 'pokemon';
 
-console.log('sw2', APP_NAME, VERSION);
-
+/* eslint-disable-next-line no-underscore-dangle */
 const assets = self.__WB_MANIFEST;
+/* eslint-disable-next-line no-underscore-dangle */
 self.__WB_DISABLE_DEV_LOGS = true;
 
 setCacheNameDetails({
@@ -57,12 +57,6 @@ function getEndpointLastPart(url: Url) {
   return url.pathname.replace(/\/$/, '').split('/').pop();
 }
 
-function isPokeapiListPath(url: Url) {
-  return (
-    url.hostname === 'pokeapi.co' && getEndpointLastPart(url) === 'pokemon'
-  );
-}
-
 function isPokeapiDetailPath(url: Url, inBag = false) {
   const lastPart = getEndpointLastPart(url);
   const is = url.hostname === 'pokeapi.co' && /\d+/g.test(lastPart);
@@ -70,6 +64,14 @@ function isPokeapiDetailPath(url: Url, inBag = false) {
     return is && bagItems.includes(lastPart);
   }
   return is;
+}
+
+function isBagImage(url: Url, request: Request) {
+  if (request.destination !== 'image') {
+    return false;
+  }
+  const img = getEndpointLastPart(url);
+  return bagItems.includes(img.split('.').slice(-2, -1)[0]);
 }
 
 function bagCacheMatch(url: Url, request: Request) {
@@ -80,13 +82,6 @@ function apiCacheMatch(url: Url, request: Request) {
   return url.hostname === 'pokeapi.co' && !bagCacheMatch(url, request);
 }
 
-function isBagImage(url: Url, request: Request) {
-  if (request.destination !== 'image') {
-    return false;
-  }
-  const img = getEndpointLastPart(url);
-  return bagItems.includes(img.split('.').slice(-2, -1)[0]);
-}
 
 /* cache the bag */
 const bagCacheFirst = new CacheFirst({
@@ -105,7 +100,7 @@ const bagCacheFirst = new CacheFirst({
 registerRoute(
   ({ url, request }) => bagCacheMatch(url, request),
   async (args: RouteHandlerCallbackOptions) => {
-    return await bagCacheFirst.handle(args);
+    return bagCacheFirst.handle(args);
   },
 );
 

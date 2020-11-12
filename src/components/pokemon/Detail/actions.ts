@@ -1,56 +1,41 @@
-import { action } from 'typesafe-actions';
+// @ts-ignore
 import qrate from 'qrate';
 import config from '../../../config';
-import { PokemonDetailsActionTypes } from './types';
-import { ApplicationState } from '../../../reducers';
-import { PokemonDetailState, getItemById } from './reducers';
-import { AppThunk } from '../../../redux/reducers';
+import { shouldFetch } from './reducers';
+import { AppThunk } from '../../../redux/types';
+import { getDetailState } from '../../../redux/selectors';
+import { receiveDetails, requestDetails } from './actions-sync';
 
+type FetcherFn = (
+  { id, dispatch }: { id: string; dispatch: any },
+  done: () => void,
+) => void;
 
-export const requestDetails = (id) =>
-  action(PokemonDetailsActionTypes.REQUEST_DETAILS, { id });
-export const receiveDetails = (data: any, id) =>
-  action(PokemonDetailsActionTypes.RECEIVE_DETAILS, { data, id });
-
-const fetcher = ({ id, dispatch }, done) => {
+const fetcher: FetcherFn = ({ id, dispatch }, done) => {
   const url =
-    // process.env.NODE_ENV === 'production'
-    // ? [> istanbul ignore next <]
-    `${config.pokeapi.url}/pokemon/${id}`;
-  // '/components/pokemon/Detail/fixtures/1.json';
+    process.env.DEV_USE_FIXTURE_FOR_API === 'true'
+      ? /* istanbul ignore next */
+        '/components/pokemon/Detail/fixtures/1.json'
+      : `${config.pokeapi.url}/pokemon/${id}`;
   fetch(url)
     .then((response) => response.json())
-    .then((json) => dispatch(receiveDetails(json, id)))
+    .then((json) => {
+      dispatch(receiveDetails(json, id));
+    })
     .finally(done);
 };
 
 // concurrency, rateLimit x workers per second
 const q = qrate(fetcher, 4, 4);
 
-function fetchItem(
-  id,
-): ThunkAction<void, ApplicationState, unknown, Action<string>> {
-  return (dispatch) => {
-    dispatch(requestDetails(id));
-    q.push({ id, dispatch });
-  };
-}
+const fetchItem = (id: string): AppThunk => (dispatch) => {
+  dispatch(requestDetails(id));
+  q.push({ id, dispatch });
+};
 
-function shouldFetch(state: ApplicationState, id) {
-  const item = getItemById(state.pokemonDetail, id);
-  if (!item?.hasEverLoaded) {
-    return true;
+export const fetchIfNeeded = (id: string): AppThunk => (dispatch, getState) => {
+  if (shouldFetch(getDetailState(getState()), id)) {
+    return dispatch(fetchItem(id));
   }
   return false;
-}
-
-export function fetchIfNeeded(
-  id,
-): ThunkAction<void, ApplicationState, unknown, Action<string>> {
-  return (dispatch, getState) => {
-    if (shouldFetch(getState(), id)) {
-      return dispatch(fetchItem(id));
-    }
-    return false;
-  };
-}
+};

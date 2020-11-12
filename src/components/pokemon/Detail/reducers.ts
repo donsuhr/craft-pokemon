@@ -1,9 +1,10 @@
-import { Reducer, combineReducers } from 'redux';
-import { PokemonDetailsActionTypes, Details } from './types';
+import { combineReducers } from 'redux';
+import { PokemonDetailsActionTypes, IDetails, IAbility, IType } from './types';
+import { ActionTypes } from './actions-sync';
 
 const defaultImg = '/img/default.png';
 
-const detailsState: Details = {
+const detailsState: IDetails = {
   name: '',
   id: '0',
   img: defaultImg,
@@ -18,6 +19,9 @@ const itemState = {
   hasEverLoaded: false,
   isFetching: false,
   details: detailsState,
+  // TODO:
+  // status: 'idle' | 'loading' | 'succeeded' | 'failed',
+  // error: string | null
 };
 
 const getImgFromData = (data: any) => {
@@ -28,7 +32,7 @@ const getImgFromData = (data: any) => {
   );
 };
 
-const details = (state = detailsState, data: any) => {
+const details = (state: IDetails, data: any) => {
   return {
     ...state,
     id: data.id,
@@ -37,12 +41,12 @@ const details = (state = detailsState, data: any) => {
     height: data.height,
     weight: data.weight,
     baseExperience: data.base_experience,
-    types: data.types.map(x => x.type.name),
-    abilities: data.abilities.map(x => x.ability.name),
+    types: data.types.map((x: IType) => x.type.name),
+    abilities: data.abilities.map((x: IAbility) => x.ability.name),
   };
 };
 
-const item = (state = itemState, action) => {
+const processItem = (state = itemState, action: ActionTypes) => {
   switch (action.type) {
     case PokemonDetailsActionTypes.RECEIVE_DETAILS:
       return {
@@ -56,19 +60,25 @@ const item = (state = itemState, action) => {
         isFetching: true,
         hasEverLoaded: true,
       };
+    /* istanbul ignore next */
     default:
       return state;
   }
 };
 
-export const byId = (state = {}, action) => {
+type ByIdType = { [x: string]: typeof itemState };
+
+export const byId: (
+  state: ByIdType | undefined,
+  action: ActionTypes,
+) => ByIdType = (state = {}, action) => {
   switch (action.type) {
     case PokemonDetailsActionTypes.RECEIVE_DETAILS:
     case PokemonDetailsActionTypes.REQUEST_DETAILS:
       const { id } = action.payload;
       return {
         ...state,
-        [id]: item(state[id], action),
+        [id]: processItem(state[id], action),
       };
     default:
       return state;
@@ -83,4 +93,12 @@ export type PokemonDetailState = ReturnType<typeof reducers>;
 
 export function getItemById(state: PokemonDetailState, id: string) {
   return state.byId[id] || itemState;
+}
+
+export function shouldFetch(state: PokemonDetailState, id: string) {
+  const item = getItemById(state, id);
+  if (!item?.hasEverLoaded && parseInt(id, 10) < 5) {
+    return true;
+  }
+  return false;
 }
