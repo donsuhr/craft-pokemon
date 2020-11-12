@@ -46,7 +46,7 @@ if (production) {
 
   plugins.push(
     new InjectManifest({
-      swSrc: './src/sw.ts',
+      swSrc: './src/sw.js',
     }),
   );
 } else {
@@ -56,7 +56,7 @@ if (production) {
   ) {
     plugins.push(
       new InjectManifest({
-        swSrc: './src/sw.ts',
+        swSrc: './src/sw.js',
         exclude: [/\.hot-update\./],
         maximumFileSizeToCacheInBytes: 5000000,
       }),
@@ -82,6 +82,11 @@ module.exports = {
       minSize: 20000,
       chunks: 'all',
     },
+  },
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
   },
   module: {
     rules: [js, scss, css],

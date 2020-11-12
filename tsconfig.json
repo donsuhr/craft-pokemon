@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "lib": ["esnext", "dom", "webworker"],
+    "lib": ["DOM", "ESNext"],
     "strict": true,
     "jsx": "react",
-    "types": ["jest", "node"],
+    "types": ["node"],
     "moduleResolution": "node",
-    "target": "ESNext"
+    "target": "ESNext",
+    "baseUrl": ".",
+    "paths": { "@/*": ["src/*"] }
   },
   "include": ["src/**/*", "jest-setup.ts"]
 }

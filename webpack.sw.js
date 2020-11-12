@@ -3,7 +3,7 @@ const { js } = require('./webpack.rules');
 const production = process.env.NODE_ENV === 'production';
 
 const entry = {
-  sw: './src/sw.ts',
+ sw: './src/sw.js',
 };
 
 module.exports = {

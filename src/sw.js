@@ -1,29 +1,24 @@
 /* global serviceWorkerVersion */
 /* eslint-env serviceworker */
-/* chrome://serviceworker-internals/ */
-
+/* check for lingering sw: chrome://serviceworker-internals/ */
 import {
   skipWaiting,
   clientsClaim,
   setCacheNameDetails,
-  RouteHandlerCallbackOptions,
 } from 'workbox-core';
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { CacheFirst } from 'workbox-strategies';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { ExpirationPlugin } from 'workbox-expiration';
-import { Url } from 'url';
 
-declare const self: ServiceWorkerGlobalScope;
-
-const VERSION: string = serviceWorkerVersion;
-const APP_NAME: string = 'pokemon';
+const VERSION = serviceWorkerVersion;
+const APP_NAME  = 'pokemon';
 
 /* eslint-disable-next-line no-underscore-dangle */
-const assets = self.__WB_MANIFEST;
+const assets = window.self.__WB_MANIFEST;
 /* eslint-disable-next-line no-underscore-dangle */
-self.__WB_DISABLE_DEV_LOGS = true;
+window.self.__WB_DISABLE_DEV_LOGS = true;
 
 setCacheNameDetails({
   prefix: APP_NAME,
@@ -40,7 +35,7 @@ const offlineImage = `<svg role="img" aria-labelledby="offline-title"
                         <tspan x="93" y="172">offline</tspan></text></g>
                     </svg>`;
 
-self.addEventListener('message', (event) => {
+window.self.addEventListener('message', (event) => {
   if (event.data.type === 'bagUpdated') {
     bagItems = event.data.payload;
   }
@@ -53,11 +48,11 @@ if (
   precacheAndRoute(assets || []);
 }
 
-function getEndpointLastPart(url: Url) {
+function getEndpointLastPart(url ) {
   return url.pathname.replace(/\/$/, '').split('/').pop();
 }
 
-function isPokeapiDetailPath(url: Url, inBag = false) {
+function isPokeapiDetailPath(url , inBag = false) {
   const lastPart = getEndpointLastPart(url);
   const is = url.hostname === 'pokeapi.co' && /\d+/g.test(lastPart);
   if (is && inBag) {
@@ -66,7 +61,7 @@ function isPokeapiDetailPath(url: Url, inBag = false) {
   return is;
 }
 
-function isBagImage(url: Url, request: Request) {
+function isBagImage(url , request ) {
   if (request.destination !== 'image') {
     return false;
   }
@@ -74,11 +69,11 @@ function isBagImage(url: Url, request: Request) {
   return bagItems.includes(img.split('.').slice(-2, -1)[0]);
 }
 
-function bagCacheMatch(url: Url, request: Request) {
+function bagCacheMatch(url , request ) {
   return isPokeapiDetailPath(url, true) || isBagImage(url, request);
 }
 
-function apiCacheMatch(url: Url, request: Request) {
+function apiCacheMatch(url , request ) {
   return url.hostname === 'pokeapi.co' && !bagCacheMatch(url, request);
 }
 
@@ -99,7 +94,7 @@ const bagCacheFirst = new CacheFirst({
 
 registerRoute(
   ({ url, request }) => bagCacheMatch(url, request),
-  async (args: RouteHandlerCallbackOptions) => {
+  async (args) => {
     return bagCacheFirst.handle(args);
   },
 );
@@ -120,7 +115,7 @@ const apiCacheFirst = new CacheFirst({
 
 registerRoute(
   ({ url, request }) => apiCacheMatch(url, request),
-  async (args: RouteHandlerCallbackOptions) => {
+  async (args ) => {
     try {
       return await apiCacheFirst.handle(args);
     } catch (e) {
@@ -164,7 +159,7 @@ registerRoute(
   },
 );
 
-self.addEventListener('activate', (event) => {
+window.self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
