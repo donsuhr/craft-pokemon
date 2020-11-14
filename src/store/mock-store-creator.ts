@@ -35,8 +35,28 @@ const pokemonDetail: PokemonDetailState = {
 };
 
 export const stateFixture: ApplicationState = {
-  pokemon: { byId: {}, isFetching: false, hasEverLoaded: true },
-  pokemonBag: [],
+  pokemon: {
+    byId: {
+      1: {
+        id: '1',
+        name: 'one',
+        url: 'url',
+      },
+      2: {
+        id: '2',
+        name: 'two',
+        url: 'url',
+      },
+      3: {
+        id: '3',
+        name: 'three',
+        url: 'url',
+      },
+    },
+    isFetching: false,
+    hasEverLoaded: true,
+  },
+  pokemonBag: ['1', '2'],
   pokemonDetail,
   ui: {
     filterText: '',
