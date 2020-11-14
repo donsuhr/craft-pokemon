@@ -4,6 +4,8 @@ $theme-blue: #3b4cca;
 $theme-yellow: #ffde00;
 $theme-dark-yellow: #b3a125;
 $theme-yellow-glow: rgba(255, 222, 0, 0.7);
+$label-color: #333;
+$label-bg-color: #fff;
 
 .toggle {
   display: inline-flex;
@@ -24,7 +26,7 @@ $theme-yellow-glow: rgba(255, 222, 0, 0.7);
 }
 
 .toggle input {
-  position: absolute !important;
+  position: absolute;
   width: 1px;
   height: 1px;
   overflow: hidden;
@@ -36,18 +38,18 @@ $theme-yellow-glow: rgba(255, 222, 0, 0.7);
   display: block;
   margin-right: -1px;
   padding: 8px 16px;
-  color: #333;
+  color: $label-color;
   font-size: 14px;
   line-height: 1;
   text-align: center;
-  background-color: #fff;
+  background-color: $label-bg-color;
   border: 1px solid $theme-dark-red;
   cursor: pointer;
   transition: all 0.1s ease-in-out;
 }
 
 .toggle input:checked + label {
-  color: #fff;
+  color: $label-bg-color;
   background-color: $theme-blue;
   box-shadow: none;
 }

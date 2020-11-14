@@ -83,6 +83,7 @@
     "string-quotes": "single",
     "unit-allowed-list": [
       "%",
+      "ch",
       "deg",
       "em",
       "ms",
