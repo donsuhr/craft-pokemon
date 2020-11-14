@@ -3,8 +3,13 @@ export enum PokemonActionTypes {
   RECEIVE_ITEMS = '@@pokemon/RECEIVE_ITEMS',
 }
 
+export interface ResponseItem {
+  url: string;
+  name: string;
+}
+
 export interface Item {
-  id?: string;
+  id: string;
   name: string;
   url: string;
 }

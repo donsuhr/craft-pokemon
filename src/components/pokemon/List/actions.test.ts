@@ -1,14 +1,10 @@
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import fetchMock from 'fetch-mock';
+import { mockStoreCreator, stateFixture } from '@/store/mock-store-creator';
 import { requestItems, receiveItems, fetchItemsIfNeeded } from './actions';
 import { PokemonActionTypes } from './types';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
 describe('pokemon actions', () => {
   afterEach(() => {
-    fetchMock.restore();
+    jest.restoreAllMocks();
   });
 
   it('Request Items', () => {
@@ -27,28 +23,46 @@ describe('pokemon actions', () => {
   });
 
   it('should fetchItemsIfNeeded false', () => {
-    const store = mockStore({ pokemon: { hasEverLoaded: true } });
-    const result = store.dispatch<any>(fetchItemsIfNeeded());
+    const state = {
+      ...stateFixture,
+      pokemon: {
+        ...stateFixture.pokemon,
+        hasEverLoaded: true,
+      },
+    };
+
+    const store = mockStoreCreator(state);
+    const result = store.dispatch(fetchItemsIfNeeded());
     expect(result).toEqual(false);
   });
 
-  it('should fetchItemsIfNeeded true', () => {
-    fetchMock.mock('*', {
-      body: { todos: ['do something'] },
-      headers: { 'content-type': 'application/json' },
-    });
-    const store = mockStore({ pokemon: { hasEverLoaded: false } });
-    const result = store.dispatch<any>(fetchItemsIfNeeded());
+  it('should fetchItemsIfNeeded true', async () => {
+    global.fetch = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => ({ results: [{ name: 'name', url: 'url' }] }),
+      }),
+    );
+    const state = {
+      ...stateFixture,
+      pokemon: {
+        ...stateFixture.pokemon,
+        hasEverLoaded: false,
+      },
+    };
+
+    const store = mockStoreCreator(state);
+
+    store.dispatch(fetchItemsIfNeeded());
     const expectedActions = [
       { type: PokemonActionTypes.REQUEST_ITEMS },
       {
         type: PokemonActionTypes.RECEIVE_ITEMS,
-        payload: { todos: ['do something'] },
+        payload: { results: [{ name: 'name', url: 'url' }] },
       },
     ];
-    return result.then(() => {
-      expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
-      expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
-    });
+    await new Promise(setImmediate);
+    expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
+    expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
   });
 });

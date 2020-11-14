@@ -1,4 +1,11 @@
-import { hasEverLoaded, isFetching, byId } from './reducers';
+import { stateFixture } from '@/store/mock-store-creator';
+import {
+  hasEverLoaded,
+  isFetching,
+  byId,
+  getItemById,
+  PokemonListState,
+} from './reducers';
 import { PokemonActionTypes, Items } from './types';
 
 describe('pokemon reducer', () => {
@@ -74,6 +81,13 @@ describe('pokemon reducer', () => {
           payload,
         }),
       ).toEqual(expectedObject);
+    });
+  });
+
+  describe('selectors', () => {
+    it('getItemById', () => {
+      const state: PokemonListState = stateFixture.pokemon;
+      expect(getItemById(state, '1').name).toBe('one');
     });
   });
 });

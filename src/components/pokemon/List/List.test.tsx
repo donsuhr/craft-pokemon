@@ -1,45 +1,45 @@
-import renderer from 'react-test-renderer';
 import * as React from 'react';
-import { unmountComponentAtNode } from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import List from './List';
-import { Items } from './types';
+import { render, screen } from '@/test-utils';
+import { mockStoreCreator, stateFixture } from '@/store/mock-store-creator';
+import List from './index';
 
-let container: HTMLElement | null;
-jest.mock('./ListItem.container', () => () => <div>target</div>);
+// jest.mock('./ListItem.container', () => () => <div>target</div>);
 
-describe('List', () => {
-  beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
-  });
+describe('List',  () => {
+  afterEach(() => jest.restoreAllMocks());
 
-  afterEach(() => {
-    if (container) {
-      unmountComponentAtNode(container);
-      container?.parentElement?.removeChild(container);
-      container = null;
-    }
-  });
-
-  test('it renders', () => {
-    const items = [
-      {
-        id: '2',
-        name: 'name',
-        url: 'http://',
-      },
-    ];
-    const sut = renderer.create(
-      <Router>
-        <List items={items} />
-      </Router>,
+  test('it renders',async () => {
+    global.fetch = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => {},
+      }),
     );
-    expect(sut.toJSON()).toMatchSnapshot();
-  });
+    const state = {
+      ...stateFixture,
+      pokemon: {
+        ...stateFixture.pokemon,
+        byId: {
+          ...stateFixture.pokemon.byId,
 
-  test('it renders empty', () => {
-    const sut = renderer.create(<List />);
-    expect(sut.toJSON()).toMatchSnapshot();
+          '4': {
+            id: '4',
+            name: 'test target',
+            url: 'http://',
+          },
+        },
+      },
+    };
+    render(
+      <Router>
+        <List />
+      </Router>,
+      {
+        store: mockStoreCreator(state),
+      },
+    );
+    await new Promise(setImmediate);
+    expect(screen.getAllByText(/test target/i).length).toBeGreaterThan(0);
   });
 });

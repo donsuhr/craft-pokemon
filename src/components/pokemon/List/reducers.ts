@@ -1,5 +1,5 @@
 import { Reducer, combineReducers } from 'redux';
-import { PokemonActionTypes, Item, Items } from './types';
+import { PokemonActionTypes, Items, ResponseItem } from './types';
 
 export const hasEverLoaded: Reducer<boolean> = (state = false, action) => {
   switch (action.type) {
@@ -24,9 +24,9 @@ export const isFetching: Reducer<boolean> = (state = false, action) => {
 export const byId: Reducer<Items> = (state = {}, action) => {
   switch (action.type) {
     case PokemonActionTypes.RECEIVE_ITEMS:
-      return action.payload.results.reduce((acc: Items, x: Item) => {
-        const id = x.url.replace(/\/$/, '').split('/').pop();
-        acc[id!] = { id, ...x };
+      return action.payload.results.reduce((acc: Items, x: ResponseItem) => {
+        const id = x.url.replace(/\/$/, '').split('/').pop()!;
+        acc[id] = { id, ...x };
         return acc;
       }, {});
 
@@ -41,8 +41,8 @@ export const pokemonReducer = combineReducers({
   hasEverLoaded,
 });
 
-export type RootState = ReturnType<typeof pokemonReducer>;
+export type PokemonListState = ReturnType<typeof pokemonReducer>;
 
-export function getItemById(state: RootState, id: string) {
+export function getItemById(state: PokemonListState, id: string) {
   return state.byId[id];
 }
