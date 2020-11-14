@@ -1,19 +1,25 @@
-import {  combineReducers } from 'redux';
-import { PokemonMapActionTypes  } from './types';
+import { combineReducers } from 'redux';
+import { PokemonMapActionTypes } from './types';
+import { ActionTypes } from './actions.sync';
 
-const itemState = {
+type ItemStateType = {
+  isFetching: boolean;
+  hasEverLoaded: boolean;
+  locations: string[];
+};
+
+const itemState: ItemStateType = {
   isFetching: false,
   hasEverLoaded: false,
-  locations: []
-}
+  locations: [],
+};
 
-
-const item = (state = itemState, action) => {
+const item = (state = itemState, action: ActionTypes) => {
   switch (action.type) {
     case PokemonMapActionTypes.RECEIVE:
       return {
         ...state,
-        locations:  action.payload.data.locations,
+        locations: action.payload.data.locations,
         isFetching: false,
       };
     case PokemonMapActionTypes.REQUEST:
@@ -22,21 +28,29 @@ const item = (state = itemState, action) => {
         isFetching: true,
         hasEverLoaded: true,
       };
+    /* istanbul ignore next */
     default:
       return state;
   }
 };
 
-export const byId = (state = {}, action) => {
+type ByIdType = { [x: string]: ItemStateType };
+
+export const byId: (
+  state: ByIdType | undefined,
+  action: ActionTypes,
+) => ByIdType = (state = {}, action) => {
   switch (action.type) {
     case PokemonMapActionTypes.RECEIVE:
     case PokemonMapActionTypes.REQUEST:
+      /* eslint-disable-next-line no-case-declarations */
       const { id } = action.payload;
       return {
         ...state,
         [id]: item(state[id], action),
       };
     default:
+      /* istanbul ignore next */
       return state;
   }
 };

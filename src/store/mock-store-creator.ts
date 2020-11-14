@@ -64,7 +64,11 @@ export const stateFixture: ApplicationState = {
   },
   pokemonMap: {
     byId: {
-      1: {},
+      1: {
+        isFetching: false,
+        hasEverLoaded: true,
+        locations: ['1', '2'],
+      },
     },
   },
 };

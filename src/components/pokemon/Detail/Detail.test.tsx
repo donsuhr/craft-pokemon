@@ -7,7 +7,7 @@ import Detail from './index';
 import { PokemonDetailsActionTypes } from './types';
 import { PokemonDetailState } from './reducers';
 
-jest.mock('../Map/Map.container', () => () => <div>target</div>);
+jest.mock('../Map/Map', () => () => <div>target</div>);
 jest.mock('../Bag/InBagCheckbox', () => () => <div>target</div>);
 
 const middlewares = [thunk];

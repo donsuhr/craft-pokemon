@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { getDetailState } from '@/store/selectors';
 import {ApplicationState} from '@/store/types';
 import styles from './Detail.module.scss';
-// import Map from '../Map/Map.container';
+import Map from '../Map/Map';
 import InBagCheckbox from '../Bag/InBagCheckbox';
 import { getItemById } from './reducers';
 import { fetchIfNeeded } from './actions';
@@ -78,7 +78,7 @@ const PokemonDetail = ({ id }: Props) => {
           </ul>
         </div>
 
-        <div className={styles.mapWrapper}>{/* <Map id={id} /> */}</div>
+        <div className={styles.mapWrapper}><Map id={id} /></div>
       </div>
       <Link to="/">Back</Link>
     </>

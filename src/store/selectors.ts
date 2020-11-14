@@ -9,6 +9,7 @@ export const getDetailState = (state: ApplicationState) => state.pokemonDetail;
 export const getBagState = (state: ApplicationState) => state.pokemonBag;
 export const getUiState = (state: ApplicationState) => state.ui;
 export const getListState = (state: ApplicationState) => state.pokemon;
+export const getMapState = (state: ApplicationState) => state.pokemonMap;
 
 export function getFilteredItems(state: ApplicationState) {
   const bagState = getBagState(state);

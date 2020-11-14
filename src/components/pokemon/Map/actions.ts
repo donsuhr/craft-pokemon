@@ -1,26 +1,17 @@
-import { action } from 'typesafe-actions';
-import { ThunkAction } from 'redux-thunk';
-import { Action } from 'redux';
-import config from '../../../config';
-import { PokemonMapActionTypes } from './types';
-import { ApplicationState } from '../../../reducers';
+import config from '@/config';
+import { AppThunk } from '@/store/types';
+import { getMapState } from '@/store/selectors';
+import { getItemById, PokemonMapState } from './reducers';
+import { request, receive } from './actions.sync';
 
-import { getItemById } from './reducers';
-
-export const request = (id) => action(PokemonMapActionTypes.REQUEST, { id });
-export const receive = (data: any, id) =>
-  action(PokemonMapActionTypes.RECEIVE, { data, id });
-
-function fetchItem(
-  id,
-): ThunkAction<void, ApplicationState, unknown, Action<string>> {
+function fetchItem(id: string): AppThunk {
   return (dispatch) => {
     dispatch(request(id));
     const url =
-      // process.env.NODE_ENV === 'production'
-      // ? [> istanbul ignore next <]
-      `${config['craft-demo'].url}/${id}`;
-    // '/components/pokemon/Map/fixtures/1.json';
+      process.env.DEV_USE_FIXTURE_FOR_API === 'true'
+        ? /* istanbul ignore next */
+          '/components/pokemon/Map/fixtures/1.json'
+        : `${config['craft-demo'].url}/${id}`;
     fetch(url, {
       headers: {
         'x-api-key': config['craft-demo'].key,
@@ -31,19 +22,17 @@ function fetchItem(
   };
 }
 
-function shouldFetch(state: ApplicationState, id) {
-  const item = getItemById(state.pokemonMap, id);
+function shouldFetch(state: PokemonMapState, id: string) {
+  const item = getItemById(state, id);
   if (!item?.hasEverLoaded) {
     return true;
   }
   return false;
 }
 
-export function fetchIfNeeded(
-  id,
-): ThunkAction<void, ApplicationState, unknown, Action<string>> {
+export function fetchIfNeeded(id: string): AppThunk {
   return (dispatch, getState) => {
-    if (shouldFetch(getState(), id)) {
+    if (shouldFetch(getMapState(getState()), id)) {
       return dispatch(fetchItem(id));
     }
     return false;
