@@ -15,10 +15,10 @@ import { ExpirationPlugin } from 'workbox-expiration';
 const VERSION = serviceWorkerVersion;
 const APP_NAME  = 'pokemon';
 
-/* eslint-disable-next-line no-underscore-dangle */
-const assets = window.self.__WB_MANIFEST;
-/* eslint-disable-next-line no-underscore-dangle */
-window.self.__WB_DISABLE_DEV_LOGS = true;
+/* eslint-disable-next-line no-underscore-dangle,no-restricted-globals */
+const assets = self.__WB_MANIFEST;
+/* eslint-disable-next-line no-underscore-dangle,no-restricted-globals */
+self.__WB_DISABLE_DEV_LOGS = true;
 
 setCacheNameDetails({
   prefix: APP_NAME,
@@ -35,7 +35,8 @@ const offlineImage = `<svg role="img" aria-labelledby="offline-title"
                         <tspan x="93" y="172">offline</tspan></text></g>
                     </svg>`;
 
-window.self.addEventListener('message', (event) => {
+/* eslint-disable-next-line no-restricted-globals */
+self.addEventListener('message', (event) => {
   if (event.data.type === 'bagUpdated') {
     bagItems = event.data.payload;
   }
@@ -159,7 +160,8 @@ registerRoute(
   },
 );
 
-window.self.addEventListener('activate', (event) => {
+/* eslint-disable-next-line no-restricted-globals */
+self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()

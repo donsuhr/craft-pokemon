@@ -6,7 +6,8 @@ import styles from './Loading.module.scss';
 const cx = classNames.bind(styles as any);
 
 interface Props {
-  children: ReactNode;
+  // eslint-disable-next-line react/require-default-props
+  children?: ReactNode;
   // eslint-disable-next-line react/require-default-props
   withBg?: boolean;
 }
