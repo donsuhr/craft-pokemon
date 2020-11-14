@@ -1,22 +1,19 @@
 import Fuse from 'fuse.js';
 import { Item } from '@/components/pokemon/List/types';
-import { PokemonListState } from '../components/pokemon/List/reducers';
-import { PokemonBagState, getInBag } from '../components/pokemon/Bag/reducers';
-import { UiState } from './ui/reducers';
+import { getInBag } from '../components/pokemon/Bag/reducers';
 import { ApplicationState } from './types';
 
 let currentFilter = '';
 
-export function filterItems({
-  bagState,
-  uiState,
-  listState,
-}: {
-  bagState: PokemonBagState;
-  uiState: UiState;
-  listState: PokemonListState;
-}) {
-  // const inBag = state.pokemonBag.map(id => state.pokemon.byId[id]);
+export const getDetailState = (state: ApplicationState) => state.pokemonDetail;
+export const getBagState = (state: ApplicationState) => state.pokemonBag;
+export const getUiState = (state: ApplicationState) => state.ui;
+export const getListState = (state: ApplicationState) => state.pokemon;
+
+export function getFilteredItems(state: ApplicationState) {
+  const bagState = getBagState(state);
+  const uiState = getUiState(state);
+  const listState = getListState(state);
   let items: Item[] = Object.values(listState.byId);
   const showAll = uiState.viewAll;
   if (!showAll) {
@@ -36,8 +33,3 @@ export function filterItems({
   }
   return items;
 }
-
-export const getDetailState = (state: ApplicationState) => state.pokemonDetail;
-export const getBagState = (state: ApplicationState) => state.pokemonBag;
-export const getUiState = (state: ApplicationState) => state.ui;
-export const getListState = (state: ApplicationState) => state.pokemon;
