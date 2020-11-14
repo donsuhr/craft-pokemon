@@ -32,6 +32,11 @@
     "watch": "concurrently \"npm run watch:check-types\" \"npm run esw\" \"node bin/watch-stylelint.js\" --raw",
     "wba": "NODE_ENV=production webpack --progress --analyze"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pre-commit"
+    }
+  },
   "jest": {
     "coverageReporters": [
       "json",
