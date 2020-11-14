@@ -43,6 +43,9 @@ module.exports = {
       'process.env.DEV_USE_FIXTURE_FOR_API': JSON.stringify(
         process.env.DEV_USE_FIXTURE_FOR_API || 'false',
       ),
+      'process.env.DEV_LIMIT_DETAIL_LOAD': JSON.stringify(
+        process.env.DEV_LIMIT_DETAIL_LOAD || 'false',
+      ),
     }),
   ],
 };

@@ -97,7 +97,10 @@ export function getItemById(state: PokemonDetailState, id: string) {
 
 export function shouldFetch(state: PokemonDetailState, id: string) {
   const item = getItemById(state, id);
-  if (!item?.hasEverLoaded && parseInt(id, 10) < 5) {
+  const underLimit = process.env.DEV_LIMIT_DETAIL_LOAD
+    ? parseInt(id, 10) < parseInt(process.env.DEV_LIMIT_DETAIL_LOAD, 10)
+    : true;
+  if (!item?.hasEverLoaded && underLimit) {
     return true;
   }
   return false;

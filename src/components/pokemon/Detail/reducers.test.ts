@@ -69,7 +69,6 @@ describe('pokemon details reducer', () => {
     });
   });
 
-
   describe('selectors', () => {
     it('shouldFetch', () => {
       const detail = {
@@ -102,6 +101,19 @@ describe('pokemon details reducer', () => {
           name: '',
         },
       });
+    });
+
+    it('should not fetch if id > process var ', () => {
+      const current = process.env.DEV_LIMIT_DETAIL_LOAD;
+      process.env.DEV_LIMIT_DETAIL_LOAD = '4';
+
+      expect(shouldFetch(pokemonDetail, '10')).toBeFalsy();
+
+      if (current) {
+        process.env.DEV_LIMIT_DETAIL_LOAD = current;
+      } else {
+        delete process.env.DEV_LIMIT_DETAIL_LOAD;
+      }
     });
   });
 });
