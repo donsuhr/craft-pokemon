@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { render, screen } from '@/test-utils';
-import { mockStoreCreator, stateFixture } from '@/store/mock-store-creator';
+import { getStateFixture, mockStoreCreator } from '@/store/mock-store-creator';
+import { AsyncStatus } from '@/store/types';
 import ListItem from './ListItem';
 
 describe('ListItem', () => {
@@ -14,9 +15,7 @@ describe('ListItem', () => {
         json: () => {},
       }),
     );
-    const state = {
-      ...stateFixture,
-    };
+    const state = getStateFixture();
     render(
       <Router>
         <ListItem name="test target" id="4" />
@@ -36,14 +35,11 @@ describe('ListItem', () => {
         json: () => {},
       }),
     );
-    const state = JSON.parse(JSON.stringify(stateFixture));
-    state.pokemonDetail.byId[4] = {
-      ...stateFixture.pokemonDetail.byId[1],
-      isFetching: true,
-    };
+    const state = getStateFixture();
+    state.pokemonDetail.byId['1'].status = AsyncStatus.loading;
     const { container } = render(
       <Router>
-        <ListItem name="test target" id="4" />
+        <ListItem name="test target" id="1" />
       </Router>,
       {
         store: mockStoreCreator(state),

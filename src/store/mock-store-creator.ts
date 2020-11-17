@@ -4,8 +4,7 @@ import configureStore, {
   MockStoreEnhanced,
 } from 'redux-mock-store'; // eslint-disable-line import/no-extraneous-dependencies
 import { AnyAction, Middleware } from 'redux';
-import { ApplicationState } from '@/store/types';
-import { PokemonDetailState } from '@/components/pokemon/Detail/reducers';
+import { ApplicationState, AsyncStatus } from './types';
 
 const middlewares: Array<Middleware> = [thunk];
 type DispatchExts = ThunkDispatch<ApplicationState, undefined, AnyAction>;
@@ -15,26 +14,7 @@ export const mockStoreCreator: MockStoreCreator<
 > = configureStore<ApplicationState, DispatchExts>(middlewares);
 export type MockStoreType = MockStoreEnhanced<ApplicationState, DispatchExts>;
 
-const pokemonDetail: PokemonDetailState = {
-  byId: {
-    1: {
-      details: {
-        id: '2',
-        weight: 200,
-        height: 200,
-        baseExperience: 20,
-        img: 'img',
-        types: ['one', 'two'],
-        abilities: ['one', 'two'],
-        name: 'title target',
-      },
-      hasEverLoaded: true,
-      isFetching: false,
-    },
-  },
-};
-
-export const stateFixture: ApplicationState = {
+const stateFixture: ApplicationState = {
   pokemon: {
     byId: {
       1: {
@@ -57,7 +37,24 @@ export const stateFixture: ApplicationState = {
     hasEverLoaded: true,
   },
   pokemonBag: ['1', '2'],
-  pokemonDetail,
+  pokemonDetail: {
+    byId: {
+      1: {
+        details: {
+          id: '2',
+          weight: 200,
+          height: 200,
+          baseExperience: 20,
+          img: 'img',
+          types: ['one', 'two'],
+          abilities: ['one', 'two'],
+          name: 'title target',
+        },
+        status: AsyncStatus.succeeded,
+        error: null,
+      },
+    },
+  },
   ui: {
     filterText: '',
     viewAll: true,
@@ -65,10 +62,15 @@ export const stateFixture: ApplicationState = {
   pokemonMap: {
     byId: {
       1: {
-        isFetching: false,
-        hasEverLoaded: true,
+        status: AsyncStatus.succeeded,
+        error: null,
         locations: ['1', '2'],
+
       },
     },
   },
+};
+
+export const getStateFixture = ():ApplicationState => {
+  return JSON.parse(JSON.stringify(stateFixture));
 };

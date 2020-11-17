@@ -24,3 +24,16 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+export enum AsyncStatus {
+  offline = 'Offline',
+  initial = 'Initial',
+  loading = 'Loading',
+  succeeded = 'Succeeded',
+  failed = 'Failed',
+}
+
+export type AsyncItem = {
+  status: AsyncStatus;
+  error: string | null;
+};

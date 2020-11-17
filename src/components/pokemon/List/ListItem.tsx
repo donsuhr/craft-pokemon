@@ -3,11 +3,12 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDetailState } from '@/store/selectors';
-import { ApplicationState } from '@/store/types';
+import { ApplicationState, AsyncStatus } from '@/store/types';
 import { getItemById } from '../Detail/reducers';
 import { fetchIfNeeded } from '../Detail/actions';
 import Loading from '../../Loading';
 import styles from './ListItem.module.scss';
+import { Requestor } from '../Detail/types';
 
 interface Props {
   id: string;
@@ -17,11 +18,11 @@ interface Props {
 const ListItem = ({ id, name }: Props) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchIfNeeded(id));
+    dispatch(fetchIfNeeded(id, Requestor.ListItem));
   }, []);
 
   const {
-    isFetching,
+    status,
     details: { img },
   } = useSelector((state: ApplicationState) =>
     getItemById(getDetailState(state), id),
@@ -29,7 +30,7 @@ const ListItem = ({ id, name }: Props) => {
 
   return (
     <li className={styles.listItem}>
-      {isFetching && <Loading />}
+      {status === AsyncStatus.loading && <Loading />}
       <Link to={`/detail/${id}`} className={styles.link}>
         <img src={img} alt={name} className={styles.img} />
         <span className={styles.name}>{name}</span>

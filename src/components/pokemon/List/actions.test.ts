@@ -1,4 +1,4 @@
-import { mockStoreCreator, stateFixture } from '@/store/mock-store-creator';
+import { mockStoreCreator, getStateFixture } from '@/store/mock-store-creator';
 import { requestItems, receiveItems, fetchItemsIfNeeded } from './actions';
 import { PokemonActionTypes } from './types';
 
@@ -23,14 +23,8 @@ describe('pokemon actions', () => {
   });
 
   it('should fetchItemsIfNeeded false', () => {
-    const state = {
-      ...stateFixture,
-      pokemon: {
-        ...stateFixture.pokemon,
-        hasEverLoaded: true,
-      },
-    };
-
+    const state = getStateFixture();
+    state.pokemon.hasEverLoaded = true;
     const store = mockStoreCreator(state);
     const result = store.dispatch(fetchItemsIfNeeded());
     expect(result).toEqual(false);
@@ -43,14 +37,8 @@ describe('pokemon actions', () => {
         json: () => ({ results: [{ name: 'name', url: 'url' }] }),
       }),
     );
-    const state = {
-      ...stateFixture,
-      pokemon: {
-        ...stateFixture.pokemon,
-        hasEverLoaded: false,
-      },
-    };
-
+    const state = getStateFixture();
+    state.pokemon.hasEverLoaded = false;
     const store = mockStoreCreator(state);
 
     store.dispatch(fetchItemsIfNeeded());

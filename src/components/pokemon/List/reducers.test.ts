@@ -1,10 +1,9 @@
-import { stateFixture } from '@/store/mock-store-creator';
+import { getStateFixture } from '@/store/mock-store-creator';
 import {
   hasEverLoaded,
   isFetching,
   byId,
   getItemById,
-  PokemonListState,
 } from './reducers';
 import { PokemonActionTypes, Items } from './types';
 
@@ -86,8 +85,8 @@ describe('pokemon reducer', () => {
 
   describe('selectors', () => {
     it('getItemById', () => {
-      const state: PokemonListState = stateFixture.pokemon;
-      expect(getItemById(state, '1').name).toBe('one');
+      const { pokemon } = getStateFixture();
+      expect(getItemById(pokemon, '1').name).toBe('one');
     });
   });
 });
