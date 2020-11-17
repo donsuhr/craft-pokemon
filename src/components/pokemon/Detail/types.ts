@@ -1,6 +1,8 @@
 export enum PokemonDetailsActionTypes {
   REQUEST_DETAILS = '@@pokemonDetails/REQUEST_DETAILS',
   RECEIVE_DETAILS = '@@pokemonDetails/RECEIVE_DETAILS',
+  ERROR = '@@pokemonDetails/ERROR',
+  OFFLINE = '@@pokemonDetails/OFFLINE',
 }
 
 export interface IType {
@@ -29,4 +31,9 @@ export interface IDetails {
   types: string[];
   baseExperience: number;
   abilities: string[];
+}
+
+export enum Requestor {
+  ListItem = 'ListItem',
+  Details = 'Details',
 }

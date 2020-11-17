@@ -1,24 +1,7 @@
-import { byId, shouldFetch, getItemById, PokemonDetailState } from './reducers';
-import { PokemonDetailsActionTypes } from './types';
-
-const pokemonDetail: PokemonDetailState = {
-  byId: {
-    1: {
-      details: {
-        id: '2',
-        weight: 200,
-        height: 200,
-        baseExperience: 20,
-        img: 'img',
-        types: ['one', 'two'],
-        abilities: ['one', 'two'],
-        name: 'title target',
-      },
-      hasEverLoaded: true,
-      isFetching: false,
-    },
-  },
-};
+import { getStateFixture } from '@/store/mock-store-creator';
+import { AsyncStatus } from '@/store/types';
+import { byId, shouldFetch, getItemById } from './reducers';
+import { PokemonDetailsActionTypes, Requestor } from './types';
 
 describe('pokemon details reducer', () => {
   it('should return the initial state', () => {
@@ -29,9 +12,9 @@ describe('pokemon details reducer', () => {
       }),
     ).toMatchObject({
       '3': {
-        hasEverLoaded: true,
-        isFetching: true,
         details: { name: '' },
+        status: AsyncStatus.loading,
+        error: null,
       },
     });
   });
@@ -51,9 +34,9 @@ describe('pokemon details reducer', () => {
       }),
     ).toMatchObject({
       '2': {
-        hasEverLoaded: false,
-        isFetching: false,
         details: { name: 'Steve', types: ['one'], abilities: ['two'] },
+        status: AsyncStatus.succeeded,
+        error: null,
       },
     });
   });
@@ -65,38 +48,64 @@ describe('pokemon details reducer', () => {
         payload: { id: '3' },
       }),
     ).toMatchObject({
-      '3': { hasEverLoaded: true, isFetching: true },
+      '3': {
+        status: AsyncStatus.loading,
+        error: null,
+      },
+    });
+  });
+
+  it('will set an error', () => {
+    const someError = new Error('hello world');
+    expect(
+      byId(undefined, {
+        type: PokemonDetailsActionTypes.ERROR,
+        payload: { id: '3', error: someError },
+      }),
+    ).toMatchObject({
+      '3': {
+        status: AsyncStatus.failed,
+        error: 'hello world',
+      },
+    });
+  });
+
+  it('will set an offline', () => {
+    expect(
+      byId(undefined, {
+        type: PokemonDetailsActionTypes.OFFLINE,
+        payload: { id: '3' },
+      }),
+    ).toMatchObject({
+      '3': {
+        status: AsyncStatus.offline,
+      },
     });
   });
 
   describe('selectors', () => {
     it('shouldFetch', () => {
-      const detail = {
-        ...pokemonDetail,
-        byId: {
-          ...pokemonDetail.byId,
-          1: {
-            ...pokemonDetail.byId['1'],
-            hasEverLoaded: false,
-          },
-        },
-      };
+      const detail = getStateFixture().pokemonDetail;
+      detail.byId['1'].status = AsyncStatus.initial;
       expect(shouldFetch(detail, '1')).toBeTruthy();
     });
+
     it('should not Fetch', () => {
-      expect(shouldFetch(pokemonDetail, '1')).toBeFalsy();
+      const detail = getStateFixture().pokemonDetail;
+      detail.byId['1'].status = AsyncStatus.loading;
+      expect(shouldFetch(detail, '1')).toBeFalsy();
     });
 
     it('returns an item by id', () => {
-      expect(getItemById(pokemonDetail, '1')).toMatchObject(
-        pokemonDetail.byId['1'],
-      );
+      const detail = getStateFixture().pokemonDetail;
+      expect(getItemById(detail, '1')).toMatchObject(detail.byId['1']);
     });
 
     it('returns a default item for not found', () => {
-      expect(getItemById(pokemonDetail, '2')).toMatchObject({
-        hasEverLoaded: false,
-        isFetching: false,
+      const detail = getStateFixture().pokemonDetail;
+      expect(getItemById(detail, '2')).toMatchObject({
+        error: null,
+        status: AsyncStatus.initial,
         details: {
           name: '',
         },
@@ -104,10 +113,11 @@ describe('pokemon details reducer', () => {
     });
 
     it('should not fetch if id > process var ', () => {
+      const detail = getStateFixture().pokemonDetail;
       const current = process.env.DEV_LIMIT_DETAIL_LOAD;
       process.env.DEV_LIMIT_DETAIL_LOAD = '4';
 
-      expect(shouldFetch(pokemonDetail, '10')).toBeFalsy();
+      expect(shouldFetch(detail, '10', Requestor.ListItem)).toBeFalsy();
 
       if (current) {
         process.env.DEV_LIMIT_DETAIL_LOAD = current;

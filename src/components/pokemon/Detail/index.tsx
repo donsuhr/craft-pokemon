@@ -3,13 +3,14 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getDetailState } from '@/store/selectors';
-import {ApplicationState} from '@/store/types';
+import { ApplicationState, AsyncStatus } from '@/store/types';
 import styles from './Detail.module.scss';
 import Map from '../Map/Map';
 import InBagCheckbox from '../Bag/InBagCheckbox';
 import { getItemById } from './reducers';
 import { fetchIfNeeded } from './actions';
 import Loading from '../../Loading';
+import { Requestor } from './types';
 
 interface Props {
   id: string;
@@ -19,14 +20,10 @@ const renders = 0;
 const PokemonDetail = ({ id }: Props) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchIfNeeded(id));
+    dispatch(fetchIfNeeded(id, Requestor.Details));
   }, []);
 
-  const {
-    hasEverLoaded,
-    isFetching,
-    details,
-  } = useSelector((state: ApplicationState) =>
+  const { status, details } = useSelector((state: ApplicationState) =>
     getItemById(getDetailState(state), id),
   );
 
@@ -40,7 +37,25 @@ const PokemonDetail = ({ id }: Props) => {
     abilities,
   } = details;
 
-  if (!hasEverLoaded || isFetching || details?.name === '') {
+  if (status === AsyncStatus.failed) {
+    return (
+      <>
+        <p className="error">There was an error loading the details...</p>
+        <Link to="/">Back</Link>
+      </>
+    );
+  }
+
+  if (status === AsyncStatus.offline) {
+    return (
+      <>
+        <p className="error">Error loading details. Check connection...</p>
+        <Link to="/">Back</Link>
+      </>
+    );
+  }
+
+  if (status === AsyncStatus.loading || details?.name === '') {
     return <Loading withBg>Loading...</Loading>;
   }
 
@@ -78,7 +93,9 @@ const PokemonDetail = ({ id }: Props) => {
           </ul>
         </div>
 
-        <div className={styles.mapWrapper}><Map id={id} /></div>
+        <div className={styles.mapWrapper}>
+          <Map id={id} />
+        </div>
       </div>
       <Link to="/">Back</Link>
     </>

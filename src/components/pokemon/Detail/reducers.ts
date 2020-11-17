@@ -1,5 +1,12 @@
 import { combineReducers } from 'redux';
-import { PokemonDetailsActionTypes, IDetails, IAbility, IType } from './types';
+import { AsyncItem, AsyncStatus } from '@/store/types';
+import {
+  PokemonDetailsActionTypes,
+  IDetails,
+  IAbility,
+  IType,
+  Requestor,
+} from './types';
 import { ActionTypes } from './actions-sync';
 
 const defaultImg = '/img/default.png';
@@ -15,13 +22,14 @@ const detailsState: IDetails = {
   abilities: [],
 };
 
-const itemState = {
-  hasEverLoaded: false,
-  isFetching: false,
+type AsyncDetailsType = AsyncItem & {
+  details: IDetails;
+};
+
+const itemState: AsyncDetailsType = {
   details: detailsState,
-  // TODO:
-  // status: 'idle' | 'loading' | 'succeeded' | 'failed',
-  // error: string | null
+  status: AsyncStatus.initial,
+  error: null,
 };
 
 const getImgFromData = (data: any) => {
@@ -52,13 +60,24 @@ const processItem = (state = itemState, action: ActionTypes) => {
       return {
         ...state,
         details: details(state.details, action.payload.data),
-        isFetching: false,
+        status: AsyncStatus.succeeded,
       };
     case PokemonDetailsActionTypes.REQUEST_DETAILS:
       return {
         ...state,
-        isFetching: true,
-        hasEverLoaded: true,
+        status: AsyncStatus.loading,
+      };
+
+    case PokemonDetailsActionTypes.OFFLINE:
+      return {
+        ...state,
+        status: AsyncStatus.offline,
+      };
+    case PokemonDetailsActionTypes.ERROR:
+      return {
+        ...state,
+        status: AsyncStatus.failed,
+        error: action.payload.error.message,
       };
     /* istanbul ignore next */
     default:
@@ -66,7 +85,7 @@ const processItem = (state = itemState, action: ActionTypes) => {
   }
 };
 
-type ByIdType = { [x: string]: typeof itemState };
+type ByIdType = { [x: string]: AsyncDetailsType };
 
 export const byId: (
   state: ByIdType | undefined,
@@ -75,6 +94,8 @@ export const byId: (
   switch (action.type) {
     case PokemonDetailsActionTypes.RECEIVE_DETAILS:
     case PokemonDetailsActionTypes.REQUEST_DETAILS:
+    case PokemonDetailsActionTypes.ERROR:
+    case PokemonDetailsActionTypes.OFFLINE:
       const { id } = action.payload;
       return {
         ...state,
@@ -95,12 +116,20 @@ export function getItemById(state: PokemonDetailState, id: string) {
   return state.byId[id] || itemState;
 }
 
-export function shouldFetch(state: PokemonDetailState, id: string) {
+export function shouldFetch(
+  state: PokemonDetailState,
+  id: string,
+  requestor?: Requestor,
+) {
   const item = getItemById(state, id);
-  const underLimit = process.env.DEV_LIMIT_DETAIL_LOAD
-    ? parseInt(id, 10) < parseInt(process.env.DEV_LIMIT_DETAIL_LOAD, 10)
+  const useLimit =
+    requestor &&
+    requestor === Requestor.ListItem &&
+    process.env.DEV_LIMIT_DETAIL_LOAD;
+  const underLimit = useLimit
+    ? parseInt(id, 10) < parseInt(process.env.DEV_LIMIT_DETAIL_LOAD!, 10)
     : true;
-  if (!item?.hasEverLoaded && underLimit) {
+  if (item.status === AsyncStatus.initial && underLimit) {
     return true;
   }
   return false;

@@ -3,8 +3,15 @@ import qrate from 'qrate';
 import { AppThunk } from '@/store/types';
 import { getDetailState } from '@/store/selectors';
 import config from '@/config';
+import { checkFetchResponse, parseJSON } from '@/service/util';
 import { shouldFetch } from './reducers';
-import { receiveDetails, requestDetails } from './actions-sync';
+import {
+  receiveDetails,
+  requestDetails,
+  receiveError,
+  receiveOffline,
+} from './actions-sync';
+import { Requestor } from './types';
 
 type FetcherFn = (
   { id, dispatch }: { id: string; dispatch: any },
@@ -18,9 +25,17 @@ const fetcher: FetcherFn = ({ id, dispatch }, done) => {
         '/components/pokemon/Detail/fixtures/1.json'
       : `${config.pokeapi.url}/pokemon/${id}`;
   fetch(url)
-    .then((response) => response.json())
+    .then(checkFetchResponse)
+    .then(parseJSON)
     .then((json) => {
-      dispatch(receiveDetails(json, id));
+      if (json.offline) {
+        dispatch(receiveOffline(id));
+      } else {
+        dispatch(receiveDetails(json, id));
+      }
+    })
+    .catch((e) => {
+      dispatch(receiveError(e, id));
     })
     .finally(done);
 };
@@ -33,8 +48,11 @@ const fetchItem = (id: string): AppThunk => (dispatch) => {
   q.push({ id, dispatch });
 };
 
-export const fetchIfNeeded = (id: string): AppThunk => (dispatch, getState) => {
-  if (shouldFetch(getDetailState(getState()), id)) {
+export const fetchIfNeeded = (id: string, requestor?: Requestor): AppThunk => (
+  dispatch,
+  getState,
+) => {
+  if (shouldFetch(getDetailState(getState()), id, requestor)) {
     return dispatch(fetchItem(id));
   }
   return false;
