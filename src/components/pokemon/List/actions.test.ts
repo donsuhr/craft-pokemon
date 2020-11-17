@@ -33,7 +33,6 @@ describe('pokemon actions', () => {
   it('should fetchItemsIfNeeded true', async () => {
     global.fetch = jest.fn().mockImplementation(() =>
       Promise.resolve({
-        ok: true,
         json: () => ({ results: [{ name: 'name', url: 'url' }] }),
       }),
     );

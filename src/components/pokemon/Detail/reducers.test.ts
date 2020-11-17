@@ -87,13 +87,13 @@ describe('pokemon details reducer', () => {
     it('shouldFetch', () => {
       const detail = getStateFixture().pokemonDetail;
       detail.byId['1'].status = AsyncStatus.initial;
-      expect(shouldFetch(detail, '1')).toBeTruthy();
+      expect(shouldFetch(detail, { id: '1' })).toBeTruthy();
     });
 
     it('should not Fetch', () => {
       const detail = getStateFixture().pokemonDetail;
       detail.byId['1'].status = AsyncStatus.loading;
-      expect(shouldFetch(detail, '1')).toBeFalsy();
+      expect(shouldFetch(detail, { id: '1' })).toBeFalsy();
     });
 
     it('returns an item by id', () => {
@@ -113,11 +113,13 @@ describe('pokemon details reducer', () => {
     });
 
     it('should not fetch if id > process var ', () => {
-      const detail = getStateFixture().pokemonDetail;
+      const state = getStateFixture().pokemonDetail;
       const current = process.env.DEV_LIMIT_DETAIL_LOAD;
       process.env.DEV_LIMIT_DETAIL_LOAD = '4';
 
-      expect(shouldFetch(detail, '10', Requestor.ListItem)).toBeFalsy();
+      expect(
+        shouldFetch(state, { id: '10', requestor: Requestor.ListItem }),
+      ).toBeFalsy();
 
       if (current) {
         process.env.DEV_LIMIT_DETAIL_LOAD = current;

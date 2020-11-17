@@ -10,7 +10,6 @@ describe('List', () => {
   test('it renders', async () => {
     global.fetch = jest.fn().mockImplementation(() =>
       Promise.resolve({
-        ok: true,
         json: () => {},
       }),
     );

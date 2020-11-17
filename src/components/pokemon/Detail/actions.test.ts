@@ -1,7 +1,4 @@
-import {
-  getStateFixture,
-  mockStoreCreator,
-} from '@/store/mock-store-creator';
+import { getStateFixture, mockStoreCreator } from '@/store/mock-store-creator';
 import { AsyncStatus } from '@/store/types';
 import { fetchIfNeeded } from './actions';
 import {
@@ -52,7 +49,7 @@ describe('pokemon detail actions', () => {
   it('should fetchItemsIfNeeded false', () => {
     const state = getStateFixture();
     const store = mockStoreCreator(state);
-    const result = store.dispatch(fetchIfNeeded('1'));
+    const result = store.dispatch(fetchIfNeeded({ id: '1' }));
     expect(result).toEqual(false);
   });
 
@@ -69,7 +66,7 @@ describe('pokemon detail actions', () => {
     state.pokemonDetail.byId['1'].status = AsyncStatus.initial;
 
     const store = mockStoreCreator(state);
-    store.dispatch(fetchIfNeeded('1'));
+    store.dispatch(fetchIfNeeded({ id: '1' }));
     const expectedActions = [
       { type: PokemonDetailsActionTypes.REQUEST_DETAILS },
       {
@@ -96,7 +93,7 @@ describe('pokemon detail actions', () => {
     state.pokemonDetail.byId['1'].status = AsyncStatus.initial;
 
     const store = mockStoreCreator(state);
-    store.dispatch(fetchIfNeeded('1'));
+    store.dispatch(fetchIfNeeded({ id: '1' }));
     const expectedActions = [
       { type: PokemonDetailsActionTypes.REQUEST_DETAILS },
       {
@@ -114,7 +111,7 @@ describe('pokemon detail actions', () => {
     global.fetch = jest.fn().mockImplementation(() =>
       Promise.resolve({
         json: () => ({
-          foo: true
+          foo: true,
         }),
         status: 404,
       }),
@@ -124,7 +121,7 @@ describe('pokemon detail actions', () => {
     state.pokemonDetail.byId['1'].status = AsyncStatus.initial;
 
     const store = mockStoreCreator(state);
-    store.dispatch(fetchIfNeeded('1'));
+    store.dispatch(fetchIfNeeded({ id: '1' }));
     const expectedActions = [
       { type: PokemonDetailsActionTypes.REQUEST_DETAILS },
       {

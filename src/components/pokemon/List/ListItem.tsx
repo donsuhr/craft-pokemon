@@ -18,7 +18,9 @@ interface Props {
 const ListItem = ({ id, name }: Props) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchIfNeeded(id, Requestor.ListItem));
+    dispatch(
+      fetchIfNeeded({ id, requestor: Requestor.ListItem }),
+    );
   }, []);
 
   const {

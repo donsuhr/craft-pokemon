@@ -27,17 +27,20 @@ function fetchItem(id: string): AppThunk {
   };
 }
 
-function shouldFetch(state: PokemonMapState, id: string) {
+function shouldFetch(state: PokemonMapState, id: string, retry: boolean) {
   const item = getItemById(state, id);
-  if (item.status === AsyncStatus.initial) {
+  const shouldRetry =
+    retry &&
+    (item.status === AsyncStatus.failed || item.status === AsyncStatus.offline);
+  if (shouldRetry || item.status === AsyncStatus.initial) {
     return true;
   }
   return false;
 }
 
-export function fetchIfNeeded(id: string): AppThunk {
+export function fetchIfNeeded(id: string, retry = false): AppThunk {
   return (dispatch, getState) => {
-    if (shouldFetch(getMapState(getState()), id)) {
+    if (shouldFetch(getMapState(getState()), id, retry)) {
       return dispatch(fetchItem(id));
     }
     return false;

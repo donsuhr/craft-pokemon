@@ -15,7 +15,7 @@ interface Props {
 const Map = ({ id }: Props) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchIfNeeded(id));
+    dispatch(fetchIfNeeded(id, true));
   }, []);
   const { status, locations } = useSelector((state: ApplicationState) =>
     getItemById(getMapState(state), id),

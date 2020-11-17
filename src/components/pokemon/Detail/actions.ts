@@ -48,11 +48,16 @@ const fetchItem = (id: string): AppThunk => (dispatch) => {
   q.push({ id, dispatch });
 };
 
-export const fetchIfNeeded = (id: string, requestor?: Requestor): AppThunk => (
-  dispatch,
-  getState,
-) => {
-  if (shouldFetch(getDetailState(getState()), id, requestor)) {
+export const fetchIfNeeded = ({
+  id,
+  retry = false,
+  requestor,
+}: {
+  id: string;
+  retry?: boolean;
+  requestor?: Requestor;
+}): AppThunk => (dispatch, getState) => {
+  if (shouldFetch(getDetailState(getState()), {id, retry, requestor})) {
     return dispatch(fetchItem(id));
   }
   return false;

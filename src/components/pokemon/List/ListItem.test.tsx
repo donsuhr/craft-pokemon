@@ -11,7 +11,6 @@ describe('ListItem', () => {
   test('it renders', async () => {
     global.fetch = jest.fn().mockImplementation(() =>
       Promise.resolve({
-        ok: true,
         json: () => {},
       }),
     );
@@ -31,7 +30,6 @@ describe('ListItem', () => {
   test('it shows loading', () => {
     global.fetch = jest.fn().mockImplementation(() =>
       Promise.resolve({
-        ok: true,
         json: () => {},
       }),
     );

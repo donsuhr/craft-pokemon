@@ -14,13 +14,15 @@ import { Requestor } from './types';
 
 interface Props {
   id: string;
+  retry?: boolean; // eslint-disable-line react/require-default-props
 }
 
 const renders = 0;
-const PokemonDetail = ({ id }: Props) => {
+const PokemonDetail = ({ id, retry=true }: Props) => {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(fetchIfNeeded(id, Requestor.Details));
+    dispatch(fetchIfNeeded({ id, retry, requestor: Requestor.Details }));
   }, []);
 
   const { status, details } = useSelector((state: ApplicationState) =>

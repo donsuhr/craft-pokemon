@@ -118,10 +118,16 @@ export function getItemById(state: PokemonDetailState, id: string) {
 
 export function shouldFetch(
   state: PokemonDetailState,
-  id: string,
-  requestor?: Requestor,
+  {
+    id,
+    retry,
+    requestor,
+  }: { id: string; retry?: boolean; requestor?: Requestor },
 ) {
   const item = getItemById(state, id);
+  const shouldRetry =
+    retry &&
+    (item.status === AsyncStatus.failed || item.status === AsyncStatus.offline);
   const useLimit =
     requestor &&
     requestor === Requestor.ListItem &&
@@ -129,7 +135,7 @@ export function shouldFetch(
   const underLimit = useLimit
     ? parseInt(id, 10) < parseInt(process.env.DEV_LIMIT_DETAIL_LOAD!, 10)
     : true;
-  if (item.status === AsyncStatus.initial && underLimit) {
+  if ((shouldRetry || item.status === AsyncStatus.initial) && underLimit) {
     return true;
   }
   return false;

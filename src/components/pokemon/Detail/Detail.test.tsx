@@ -98,7 +98,7 @@ describe('Detail', () => {
 
     render(
       <Router>
-        <Detail id="1" />
+        <Detail id="1" retry={false} />
       </Router>,
       {
         store,
@@ -116,7 +116,7 @@ describe('Detail', () => {
 
     render(
       <Router>
-        <Detail id="1" />
+        <Detail id="1" retry={false} />
       </Router>,
       {
         store,
