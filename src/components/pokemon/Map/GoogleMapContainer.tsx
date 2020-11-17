@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { GoogleMap, Marker } from '@react-google-maps/api';
+import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
+import config from '@/config';
+import Loading from '../../Loading';
 
 const containerStyle = {
   width: '100%',
@@ -10,10 +12,14 @@ interface Props {
   locations: string[];
 }
 
-function MyComponent({ locations = [] }: Props) {
+function GooglMapContainer({ locations = [] }: Props) {
   const markerLatLngs = locations.map((loc: string) => {
     const [lat, lng] = loc.split(',').map((x) => parseFloat(x));
     return { lat, lng, key: loc };
+  });
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: config.google.maps,
   });
 
   // const [map, setMap] = React.useState(null);
@@ -32,6 +38,14 @@ function MyComponent({ locations = [] }: Props) {
     // setMap(null);
   }, []);
 
+  if (loadError) {
+    return <p>Error Loading Map</p>;
+  }
+
+  if (!isLoaded) {
+    return <Loading withBg>Loading...</Loading>;
+  }
+
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}
@@ -45,4 +59,4 @@ function MyComponent({ locations = [] }: Props) {
   );
 }
 
-export default React.memo(MyComponent);
+export default React.memo(GooglMapContainer);
