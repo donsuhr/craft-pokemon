@@ -128,7 +128,6 @@ registerRoute(
       return new Response(blob, {
         headers: { 'Content-Type': 'application/json' },
         status: 200,
-        statusText: 'SuperSmashingGreat!',
       });
     }
   },

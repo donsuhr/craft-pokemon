@@ -58,7 +58,7 @@ if (production) {
       new InjectManifest({
         swSrc: './src/sw.js',
         exclude: [/\.hot-update\./],
-        maximumFileSizeToCacheInBytes: 5000000,
+        maximumFileSizeToCacheInBytes: 6000000,
       }),
     );
   }
