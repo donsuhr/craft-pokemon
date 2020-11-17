@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@/test-utils';
-import { mockStoreCreator, stateFixture } from '@/store/mock-store-creator';
-import { ApplicationState } from '@/store/types';
+import { getStateFixture, mockStoreCreator } from '@/store/mock-store-creator';
+import { AsyncStatus } from '@/store/types';
 import Map from './Map';
 import { PokemonMapActionTypes } from './types';
 
@@ -11,8 +11,9 @@ describe('Map', () => {
   afterEach(() => jest.restoreAllMocks());
 
   test('it renders', () => {
+    const state = getStateFixture();
     render(<Map id="1" />, {
-      store: mockStoreCreator(stateFixture),
+      store: mockStoreCreator(state),
     });
     expect(
       screen.getAllByText(/current locations:[\w\r\n]*\s*\d/i).length,
@@ -22,13 +23,12 @@ describe('Map', () => {
   test('it requests load', () => {
     global.fetch = jest.fn().mockImplementation(() =>
       Promise.resolve({
-        ok: true,
         json: () => {},
       }),
     );
 
-    const state: ApplicationState = JSON.parse(JSON.stringify(stateFixture));
-    state.pokemonMap.byId[1].hasEverLoaded = false;
+    const state = getStateFixture();
+    state.pokemonMap.byId[1].status = AsyncStatus.initial;
     const store = mockStoreCreator(state);
 
     render(<Map id="1" />, { store });
@@ -39,17 +39,24 @@ describe('Map', () => {
   test('it shows loadimg', () => {
     global.fetch = jest.fn().mockImplementation(() =>
       Promise.resolve({
-        ok: true,
         json: () => {},
       }),
     );
 
-    const state: ApplicationState = JSON.parse(JSON.stringify(stateFixture));
-    state.pokemonMap.byId[1].hasEverLoaded = true;
-    state.pokemonMap.byId[1].isFetching = true;
+    const state = getStateFixture();
+    state.pokemonMap.byId[1].status = AsyncStatus.loading;
     const store = mockStoreCreator(state);
 
     render(<Map id="1" />, { store });
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  });
+
+  test('it shows error', () => {
+    const state = getStateFixture();
+    state.pokemonMap.byId[1].status = AsyncStatus.failed;
+    const store = mockStoreCreator(state);
+
+    render(<Map id="1" />, { store });
+    expect(screen.getByText(/error/i)).toBeInTheDocument();
   });
 });

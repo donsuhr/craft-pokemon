@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMapState } from '@/store/selectors';
-import { ApplicationState } from '@/store/types';
+import { ApplicationState, AsyncStatus } from '@/store/types';
 import { fetchIfNeeded } from './actions';
 import { getItemById } from './reducers';
 import GoogleMap from './GoogleMapContainer';
@@ -17,20 +17,25 @@ const Map = ({ id }: Props) => {
   useEffect(() => {
     dispatch(fetchIfNeeded(id));
   }, []);
-  const { isFetching, locations } = useSelector((state: ApplicationState) =>
+  const { status, locations } = useSelector((state: ApplicationState) =>
     getItemById(getMapState(state), id),
   );
 
-  if (isFetching) {
+  if (status === AsyncStatus.initial || status === AsyncStatus.loading) {
     return <Loading withBg>Loading...</Loading>;
   }
+
+  const count =
+    status === AsyncStatus.succeeded
+      ? locations.length
+      : 'Error loading locations';
+
   return (
     <>
       <GoogleMap locations={locations} />
       <p>
         Current Locations:
-        {' '}
-        {locations.length}
+        {count}
       </p>
     </>
   );

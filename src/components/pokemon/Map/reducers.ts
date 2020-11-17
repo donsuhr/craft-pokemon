@@ -1,16 +1,15 @@
 import { combineReducers } from 'redux';
+import { AsyncItem, AsyncStatus } from '@/store/types';
 import { PokemonMapActionTypes } from './types';
 import { ActionTypes } from './actions.sync';
 
-type ItemStateType = {
-  isFetching: boolean;
-  hasEverLoaded: boolean;
+type ItemStateType =  AsyncItem & {
   locations: string[];
 };
 
 const itemState: ItemStateType = {
-  isFetching: false,
-  hasEverLoaded: false,
+  status: AsyncStatus.initial,
+  error: null,
   locations: [],
 };
 
@@ -20,13 +19,18 @@ const item = (state = itemState, action: ActionTypes) => {
       return {
         ...state,
         locations: action.payload.data.locations,
-        isFetching: false,
+        status: AsyncStatus.succeeded,
       };
     case PokemonMapActionTypes.REQUEST:
       return {
         ...state,
-        isFetching: true,
-        hasEverLoaded: true,
+        status: AsyncStatus.loading
+      };
+    case PokemonMapActionTypes.ERROR:
+      return {
+        ...state,
+        status: AsyncStatus.failed,
+        error: action.payload.error.message
       };
     /* istanbul ignore next */
     default:
@@ -43,6 +47,7 @@ export const byId: (
   switch (action.type) {
     case PokemonMapActionTypes.RECEIVE:
     case PokemonMapActionTypes.REQUEST:
+    case PokemonMapActionTypes.ERROR:
       /* eslint-disable-next-line no-case-declarations */
       const { id } = action.payload;
       return {

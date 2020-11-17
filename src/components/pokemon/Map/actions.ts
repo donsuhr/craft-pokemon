@@ -1,8 +1,9 @@
 import config from '@/config';
-import { AppThunk } from '@/store/types';
+import { AppThunk, AsyncStatus } from '@/store/types';
 import { getMapState } from '@/store/selectors';
+import { checkFetchResponse, parseJSON } from '@/service/util';
 import { getItemById, PokemonMapState } from './reducers';
-import { request, receive } from './actions.sync';
+import { request, receive, receiveError } from './actions.sync';
 
 function fetchItem(id: string): AppThunk {
   return (dispatch) => {
@@ -17,14 +18,18 @@ function fetchItem(id: string): AppThunk {
         'x-api-key': config['craft-demo'].key,
       },
     })
-      .then((response) => response.json())
-      .then((json) => dispatch(receive(json, id)));
+      .then(checkFetchResponse)
+      .then(parseJSON)
+      .then((json) => dispatch(receive(json, id)))
+      .catch((e) => {
+        dispatch(receiveError(e, id));
+      });
   };
 }
 
 function shouldFetch(state: PokemonMapState, id: string) {
   const item = getItemById(state, id);
-  if (!item?.hasEverLoaded) {
+  if (item.status === AsyncStatus.initial) {
     return true;
   }
   return false;
