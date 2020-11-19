@@ -3,7 +3,7 @@ import { AppThunk, AsyncStatus } from '@/store/types';
 import { getMapState } from '@/store/selectors';
 import { checkFetchResponse, parseJSON } from '@/service/util';
 import { getItemById, PokemonMapState } from './reducers';
-import { request, receive, receiveError } from './actions.sync';
+import { request, receiveSuccess, receiveError } from './actions.sync';
 
 function fetchItem(id: string): AppThunk {
   return (dispatch) => {
@@ -20,7 +20,7 @@ function fetchItem(id: string): AppThunk {
     })
       .then(checkFetchResponse)
       .then(parseJSON)
-      .then((json) => dispatch(receive(json, id)))
+      .then((json) => dispatch(receiveSuccess(json, id)))
       .catch((e) => {
         dispatch(receiveError(e, id));
       });

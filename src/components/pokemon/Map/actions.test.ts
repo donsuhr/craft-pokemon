@@ -4,7 +4,7 @@ import {
 } from '@/store/mock-store-creator';
 import { AsyncStatus } from '@/store/types';
 import { fetchIfNeeded } from './actions';
-import { receive, request, receiveError } from './actions.sync';
+import { receiveSuccess, request, receiveError } from './actions.sync';
 import { PokemonMapActionTypes } from './types';
 
 describe('pokemon map actions', () => {
@@ -19,12 +19,12 @@ describe('pokemon map actions', () => {
     expect(request('1')).toMatchObject(expectedAction);
   });
 
-  it('Recieve Items', () => {
+  it('Receive Items', () => {
     const expectedAction = {
       type: PokemonMapActionTypes.RECEIVE,
       payload: {},
     };
-    expect(receive([], '1')).toMatchObject(expectedAction);
+    expect(receiveSuccess([], '1')).toMatchObject(expectedAction);
   });
 
   it('Error Items', () => {

@@ -6,8 +6,8 @@ import config from '@/config';
 import { checkFetchResponse, parseJSON } from '@/service/util';
 import { shouldFetch } from './reducers';
 import {
-  receiveDetails,
-  requestDetails,
+  receiveSuccess,
+  request,
   receiveError,
   receiveOffline,
 } from './actions-sync';
@@ -31,7 +31,7 @@ const fetcher: FetcherFn = ({ id, dispatch }, done) => {
       if (json.offline) {
         dispatch(receiveOffline(id));
       } else {
-        dispatch(receiveDetails(json, id));
+        dispatch(receiveSuccess(json, id));
       }
     })
     .catch((e) => {
@@ -44,7 +44,7 @@ const fetcher: FetcherFn = ({ id, dispatch }, done) => {
 const q = qrate(fetcher, 4, 4);
 
 const fetchItem = (id: string): AppThunk => (dispatch) => {
-  dispatch(requestDetails(id));
+  dispatch(request(id));
   q.push({ id, dispatch });
 };
 

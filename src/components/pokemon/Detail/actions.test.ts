@@ -2,8 +2,8 @@ import { getStateFixture, mockStoreCreator } from '@/store/mock-store-creator';
 import { AsyncStatus } from '@/store/types';
 import { fetchIfNeeded } from './actions';
 import {
-  requestDetails,
-  receiveDetails,
+  request,
+  receiveSuccess,
   receiveError,
   receiveOffline,
 } from './actions-sync';
@@ -18,15 +18,15 @@ describe('pokemon detail actions', () => {
     const expectedAction = {
       type: PokemonDetailsActionTypes.REQUEST_DETAILS,
     };
-    expect(requestDetails('1')).toMatchObject(expectedAction);
+    expect(request('1')).toMatchObject(expectedAction);
   });
 
-  it('Recieve Items', () => {
+  it('Receive Items', () => {
     const expectedAction = {
       type: PokemonDetailsActionTypes.RECEIVE_DETAILS,
       payload: {},
     };
-    expect(receiveDetails([], '1')).toMatchObject(expectedAction);
+    expect(receiveSuccess([], '1')).toMatchObject(expectedAction);
   });
 
   it('Handles error', () => {
