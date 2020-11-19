@@ -4,11 +4,11 @@ import { useState, useRef } from 'react';
 import styles from './Search.module.scss';
 
 interface Props {
-  label?: string; // eslint-disable-line react/require-default-props
-  value?: string; // eslint-disable-line react/require-default-props
-  name?: string; // eslint-disable-line react/require-default-props
-  idSuffix?: string; // eslint-disable-line react/require-default-props
-  onChange?: (x: any) => any; // eslint-disable-line react/require-default-props
+  label?: string;
+  value?: string;
+  name?: string;
+  idSuffix?: string;
+  onChange?: (x: any) => any;
 }
 
 export default function Search({

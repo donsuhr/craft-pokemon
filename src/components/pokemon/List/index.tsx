@@ -6,7 +6,6 @@ import ListItem from './ListItem';
 import { Item } from './types';
 import styles from './List.module.scss';
 
-// eslint-disable-next-line react/require-default-props
 const PokemonList = () => {
   const items: Item[] = useSelector((state: ApplicationState) =>
     getFilteredItems(state),

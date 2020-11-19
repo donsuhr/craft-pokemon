@@ -12,9 +12,9 @@ type Item = {
 interface Props {
   items: Item[];
   value: string;
-  name?: string; // eslint-disable-line react/require-default-props
-  onChange?: (x: string) => void; // eslint-disable-line react/require-default-props
-  className?: string; // eslint-disable-line react/require-default-props
+  name?: string;
+  onChange?: (x: string) => void;
+  className?: string;
 }
 
 const StyledRadio = ({

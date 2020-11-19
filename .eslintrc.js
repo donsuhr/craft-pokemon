@@ -28,5 +28,6 @@ module.exports = {
       },
     ],
     'no-case-declarations': 'off',
+    'react/require-default-props': 'off',
   },
 };

@@ -14,7 +14,7 @@ import { Requestor } from './types';
 
 interface Props {
   id: string;
-  retry?: boolean; // eslint-disable-line react/require-default-props
+  retry?: boolean;
 }
 
 const renders = 0;
