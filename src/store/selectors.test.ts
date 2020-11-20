@@ -4,13 +4,19 @@ import { getStateFixture } from './mock-store-creator';
 describe('Root Selectors', () => {
   it('should set viewAll', () => {
     const state = getStateFixture();
-    expect(getFilteredItems(state).length).toBe(3);
+    const location = {
+      search: '?view=all',
+    };
+    expect(getFilteredItems(state, location).length).toBe(3);
   });
 
   it('should set viewAll', () => {
     const state = getStateFixture();
     state.ui.filterText = 'three';
-    const result = getFilteredItems(state);
+    const location = {
+      search: '?view=all&s=three',
+    };
+    const result = getFilteredItems(state, location);
     expect(result.length).toBe(1);
     expect(result[0]).toMatchObject(state.pokemon.byId['3']);
   });
@@ -19,21 +25,33 @@ describe('Root Selectors', () => {
     const state = getStateFixture();
     state.ui.filterText = 'three';
     state.ui.viewAll = true;
-    expect(getFilteredItems(state).length).toBe(1);
+    const location = {
+      search: '?view=all&s=three',
+    };
+    expect(getFilteredItems(state, location).length).toBe(1);
     const state1 = getStateFixture();
     state1.ui.filterText = 'three';
     state1.ui.viewAll = false;
-    expect(getFilteredItems(state1).length).toBe(0);
+    const location1 = {
+      search: '?view=bag&s=three',
+    };
+    expect(getFilteredItems(state1, location1).length).toBe(0);
   });
 
   it('reset returns all items', () => {
     const state = getStateFixture();
     state.ui.filterText = 'three';
     state.ui.viewAll = true;
-    expect(getFilteredItems(state).length).toBe(1);
+    const location = {
+      search: '?view=all&s=three',
+    };
+    expect(getFilteredItems(state, location).length).toBe(1);
     const state1 = getStateFixture();
     state1.ui.filterText = '';
     state1.ui.viewAll = true;
-    expect(getFilteredItems(state1).length).toBe(3);
+    const location1 = {
+      search: '?view=all&s=',
+    };
+    expect(getFilteredItems(state1, location1).length).toBe(3);
   });
 });
