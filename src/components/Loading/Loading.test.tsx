@@ -84,6 +84,6 @@ describe('Loading', () => {
 
     const el = screen.getByText(/loading/);
     expect(el.style.left).toBe('200px');
-   expect(el.style.top).toBe('150px');
+    expect(el.style.top).toBe('150px');
   });
 });

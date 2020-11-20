@@ -3,7 +3,7 @@ import { AsyncItem, AsyncStatus } from '@/store/types';
 import { PokemonMapActionTypes } from './types';
 import { ActionTypes } from './actions.sync';
 
-type ItemStateType =  AsyncItem & {
+type ItemStateType = AsyncItem & {
   locations: string[];
 };
 
@@ -24,13 +24,13 @@ const item = (state = itemState, action: ActionTypes) => {
     case PokemonMapActionTypes.REQUEST:
       return {
         ...state,
-        status: AsyncStatus.loading
+        status: AsyncStatus.loading,
       };
     case PokemonMapActionTypes.ERROR:
       return {
         ...state,
         status: AsyncStatus.failed,
-        error: action.payload.error.message
+        error: action.payload.error.message,
       };
     /* istanbul ignore next */
     default:

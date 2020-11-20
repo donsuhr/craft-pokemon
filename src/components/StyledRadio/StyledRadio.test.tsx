@@ -50,12 +50,10 @@ describe('StyledRadio', () => {
 
     expect(ul).toHaveClass(className);
   });
-  
+
   test('it does not add "undefined" to className', () => {
     const items = [{ value: 'a', label: 'a' }];
-    const { container } = render(
-      <StyledRadio items={items} value="a" />,
-    );
+    const { container } = render(<StyledRadio items={items} value="a" />);
     const ul = container.querySelector('ul');
 
     expect(ul).not.toHaveClass('undefined');

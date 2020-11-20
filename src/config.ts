@@ -7,7 +7,7 @@ const config = {
     key: 'HHko9Fuxf293b3w56zAJ89s3IcO9D5enaEPIg86l',
   },
   google: {
-    maps: 'AIzaSyAqLbaniAFlLFMci9ECqoFwOUb_OPABLTk'
-  }
+    maps: 'AIzaSyAqLbaniAFlLFMci9ECqoFwOUb_OPABLTk',
+  },
 };
 export default config;

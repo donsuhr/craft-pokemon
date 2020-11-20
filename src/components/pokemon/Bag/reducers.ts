@@ -9,7 +9,7 @@ export const bag: Reducer<string[]> = (state = [], action) => {
       const index = state.indexOf(action.payload);
       if (index >= 0) {
         return [...state.slice(0, index), ...state.slice(index + 1)];
-      } 
+      }
       return state;
     default:
       return state;
@@ -18,7 +18,7 @@ export const bag: Reducer<string[]> = (state = [], action) => {
 
 export type PokemonBagState = ReturnType<typeof bag>;
 
-export function getInBag(state: PokemonBagState, id:string) {
+export function getInBag(state: PokemonBagState, id: string) {
   return state.includes(id);
 }
 

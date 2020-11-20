@@ -1,10 +1,5 @@
 import { getStateFixture } from '@/store/mock-store-creator';
-import {
-  hasEverLoaded,
-  isFetching,
-  byId,
-  getItemById,
-} from './reducers';
+import { hasEverLoaded, isFetching, byId, getItemById } from './reducers';
 import { PokemonActionTypes, Items } from './types';
 
 describe('pokemon reducer', () => {

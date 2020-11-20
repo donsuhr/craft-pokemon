@@ -42,6 +42,8 @@ describe('ListViewToggle', () => {
     const radio = screen.getByLabelText('In Bag');
     fireEvent.click(radio, {});
 
-    expect(history.push).toHaveBeenCalledWith(expect.stringMatching(/view=bag/));
+    expect(history.push).toHaveBeenCalledWith(
+      expect.stringMatching(/view=bag/),
+    );
   });
 });

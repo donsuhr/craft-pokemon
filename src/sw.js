@@ -1,11 +1,7 @@
 /* global serviceWorkerVersion */
 /* eslint-env serviceworker */
 /* check for lingering sw: chrome://serviceworker-internals/ */
-import {
-  skipWaiting,
-  clientsClaim,
-  setCacheNameDetails,
-} from 'workbox-core';
+import { skipWaiting, clientsClaim, setCacheNameDetails } from 'workbox-core';
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { CacheFirst } from 'workbox-strategies';
@@ -13,7 +9,7 @@ import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { ExpirationPlugin } from 'workbox-expiration';
 
 const VERSION = serviceWorkerVersion;
-const APP_NAME  = 'pokemon';
+const APP_NAME = 'pokemon';
 
 /* eslint-disable-next-line no-underscore-dangle,no-restricted-globals */
 const assets = self.__WB_MANIFEST;
@@ -49,11 +45,11 @@ if (
   precacheAndRoute(assets || []);
 }
 
-function getEndpointLastPart(url ) {
+function getEndpointLastPart(url) {
   return url.pathname.replace(/\/$/, '').split('/').pop();
 }
 
-function isPokeapiDetailPath(url , inBag = false) {
+function isPokeapiDetailPath(url, inBag = false) {
   const lastPart = getEndpointLastPart(url);
   const is = url.hostname === 'pokeapi.co' && /\d+/g.test(lastPart);
   if (is && inBag) {
@@ -62,7 +58,7 @@ function isPokeapiDetailPath(url , inBag = false) {
   return is;
 }
 
-function isBagImage(url , request ) {
+function isBagImage(url, request) {
   if (request.destination !== 'image') {
     return false;
   }
@@ -70,14 +66,13 @@ function isBagImage(url , request ) {
   return bagItems.includes(img.split('.').slice(-2, -1)[0]);
 }
 
-function bagCacheMatch(url , request ) {
+function bagCacheMatch(url, request) {
   return isPokeapiDetailPath(url, true) || isBagImage(url, request);
 }
 
-function apiCacheMatch(url , request ) {
+function apiCacheMatch(url, request) {
   return url.hostname === 'pokeapi.co' && !bagCacheMatch(url, request);
 }
-
 
 /* cache the bag */
 const bagCacheFirst = new CacheFirst({
@@ -116,7 +111,7 @@ const apiCacheFirst = new CacheFirst({
 
 registerRoute(
   ({ url, request }) => apiCacheMatch(url, request),
-  async (args ) => {
+  async (args) => {
     try {
       return await apiCacheFirst.handle(args);
     } catch (e) {

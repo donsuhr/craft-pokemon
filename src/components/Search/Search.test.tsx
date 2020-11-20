@@ -22,8 +22,8 @@ describe('Search', () => {
     const input = screen.getByLabelText('Search');
 
     fireEvent.change(input, { target: { value: '2020-05-12' } });
-    const myEvent = createEvent.submit(input)
+    const myEvent = createEvent.submit(input);
     fireEvent(input, myEvent);
-    expect(myEvent.defaultPrevented).toBeTruthy()
+    expect(myEvent.defaultPrevented).toBeTruthy();
   });
 });

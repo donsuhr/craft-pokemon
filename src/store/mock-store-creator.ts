@@ -65,12 +65,11 @@ const stateFixture: ApplicationState = {
         status: AsyncStatus.succeeded,
         error: null,
         locations: ['1', '2'],
-
       },
     },
   },
 };
 
-export const getStateFixture = ():ApplicationState => {
+export const getStateFixture = (): ApplicationState => {
   return JSON.parse(JSON.stringify(stateFixture));
 };

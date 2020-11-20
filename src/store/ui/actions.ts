@@ -7,4 +7,3 @@ export const setTextFilter = (val: string) =>
 type SetTextFilterActionType = ReturnType<typeof setTextFilter>;
 
 export type ActionTypes = SetTextFilterActionType;
-

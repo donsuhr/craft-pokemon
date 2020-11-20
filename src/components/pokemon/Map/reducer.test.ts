@@ -52,9 +52,7 @@ describe('pokemon map reducer', () => {
   describe('selectors', () => {
     it('returns an item by id', () => {
       const { pokemonMap } = getStateFixture();
-      expect(getItemById(pokemonMap, '1')).toMatchObject(
-        pokemonMap.byId['1'],
-      );
+      expect(getItemById(pokemonMap, '1')).toMatchObject(pokemonMap.byId['1']);
     });
 
     it('returns a default item for not found', () => {

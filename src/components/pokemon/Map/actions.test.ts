@@ -1,7 +1,4 @@
-import {
-  getStateFixture,
-  mockStoreCreator,
-} from '@/store/mock-store-creator';
+import { getStateFixture, mockStoreCreator } from '@/store/mock-store-creator';
 import { AsyncStatus } from '@/store/types';
 import { fetchIfNeeded } from './actions';
 import { receiveSuccess, request, receiveError } from './actions.sync';
@@ -72,7 +69,7 @@ describe('pokemon map actions', () => {
     global.fetch = jest.fn().mockImplementation(() =>
       Promise.resolve({
         json: () => ({
-          foo: true
+          foo: true,
         }),
         status: 404,
       }),
