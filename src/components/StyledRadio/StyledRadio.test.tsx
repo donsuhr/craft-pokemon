@@ -26,6 +26,7 @@ describe('StyledRadio', () => {
     fireEvent.click(input);
     expect(handleit).toHaveBeenCalledWith('b');
   });
+
   test('it doesnt blow up if you dont send in onChange', () => {
     const items = [
       { value: 'a', label: 'a' },
@@ -37,5 +38,26 @@ describe('StyledRadio', () => {
     const input = screen.getByLabelText('b');
     fireEvent.click(input);
     expect(input).toBeChecked();
+  });
+
+  test('it adds a className', () => {
+    const items = [{ value: 'a', label: 'a' }];
+    const className = 'testText';
+    const { container } = render(
+      <StyledRadio items={items} value="a" className={className} />,
+    );
+    const ul = container.querySelector('ul');
+
+    expect(ul).toHaveClass(className);
+  });
+  
+  test('it does not add "undefined" to className', () => {
+    const items = [{ value: 'a', label: 'a' }];
+    const { container } = render(
+      <StyledRadio items={items} value="a" />,
+    );
+    const ul = container.querySelector('ul');
+
+    expect(ul).not.toHaveClass('undefined');
   });
 });

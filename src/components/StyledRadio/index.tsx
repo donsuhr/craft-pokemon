@@ -1,7 +1,7 @@
 // copied from https://codepen.io/JiveDig/pen/jbdJXR/
 import * as React from 'react';
 import { useState } from 'react';
-
+import classNames from 'classnames';
 import styles from './StyledRadio.module.scss';
 
 type Item = {
@@ -34,8 +34,10 @@ const StyledRadio = ({
     }
   };
 
+  const cn = classNames(styles.toggle, className);
+
   return (
-    <ul className={`${styles.toggle} ${className}`}>
+    <ul className={cn}>
       {items.map((x, i) => {
         const id = `StyledRadio${i}${name}`;
         return (
