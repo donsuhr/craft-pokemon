@@ -8,7 +8,7 @@ import {fetchItemsIfNeeded} from '@/components/pokemon/List/actions';
 import List from '../components/pokemon/List';
 import Loading from '../components/Loading';
 import Search from '../components/Search';
-import StyledRadio from '../components/StyledRadio';
+import ListViewToggle from '../components/pokemon/List/ListViewToggle';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -23,35 +23,22 @@ const Home = () => {
   const filterText = useSelector(
     (state: ApplicationState) => getUiState(state).filterText,
   );
-  const isViewAll = useSelector(
-    (state: ApplicationState) => getUiState(state).viewAll,
   );
 
-  const handleToggleChange = (view:string) => {
-    dispatch(setViewAll(view === 'all'));
-  };
-  const handleSearchChange = (text:string) => {
     dispatch(setTextFilter(text));
   };
 
   if (isLoading) {
     return <Loading withBg>Loading...</Loading>;
   }
-  const toggleItems = [
-    { label: 'All', value: 'all' },
-    { label: 'In Bag', value: 'inbag' },
-  ];
-  const viewAllToggleValue = isViewAll ? 'all' : 'inbag';
 
   return (
     <section className="container">
-      <h1>Pokemon San Diego Designs</h1>
-      <StyledRadio
-        items={toggleItems}
-        onChange={handleToggleChange}
-        value={viewAllToggleValue}
-      />
-      <Search onChange={handleSearchChange} value={filterText} />
+      <h1>
+        Pokemon San Diego Designs
+      </h1>
+      <ListViewToggle />
+      <Search onChange={handleSearchChange} value={uiFilterText} />
       <List />
     </section>
   );

@@ -8,8 +8,6 @@ const initialState = {
 
 export const ui = (state = initialState, action: ActionTypes) => {
   switch (action.type) {
-    case UiActionTypes.SET_VIEW_ALL:
-      return { ...state, viewAll: action.payload };
     case UiActionTypes.SET_FILTER_TEXT:
       return { ...state, filterText: action.payload };
     default:
