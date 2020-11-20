@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 import styles from './Search.module.scss';
 
@@ -21,8 +21,11 @@ export default function Search({
   const [val, updateVal] = useState(value);
   const textInput = useRef(null);
 
+  useEffect(() => {
+    updateVal(value);
+  }, [value]);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.persist();
     updateVal(event.target.value);
     if (onChange) {
       onChange(event.target.value);

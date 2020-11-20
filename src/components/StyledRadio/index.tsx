@@ -1,6 +1,6 @@
 // copied from https://codepen.io/JiveDig/pen/jbdJXR/
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './StyledRadio.module.scss';
 
@@ -25,6 +25,10 @@ const StyledRadio = ({
   className,
 }: Props) => {
   const [val, updateVal] = useState(value);
+
+  useEffect(() => {
+    updateVal(value);
+  }, [value]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
