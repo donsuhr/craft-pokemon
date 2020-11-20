@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDetailState } from '@/store/selectors';
 import { ApplicationState, AsyncStatus } from '@/store/types';
@@ -17,10 +17,9 @@ interface Props {
 
 const ListItem = ({ id, name }: Props) => {
   const dispatch = useDispatch();
+  const location = useLocation();
   useEffect(() => {
-    dispatch(
-      fetchIfNeeded({ id, requestor: Requestor.ListItem }),
-    );
+    dispatch(fetchIfNeeded({ id, requestor: Requestor.ListItem }));
   }, []);
 
   const {
@@ -33,7 +32,10 @@ const ListItem = ({ id, name }: Props) => {
   return (
     <li className={styles.listItem}>
       {status === AsyncStatus.loading && <Loading />}
-      <Link to={`/detail/${id}`} className={styles.link}>
+      <Link
+        to={{ pathname: `/detail/${id}`, search: location.search }}
+        className={styles.link}
+      >
         <img src={img} alt={name} className={styles.img} />
         <span className={styles.name}>{name}</span>
       </Link>

@@ -57,7 +57,7 @@ export const fetchIfNeeded = ({
   retry?: boolean;
   requestor?: Requestor;
 }): AppThunk => (dispatch, getState) => {
-  if (shouldFetch(getDetailState(getState()), {id, retry, requestor})) {
+  if (shouldFetch(getDetailState(getState()), { id, retry, requestor })) {
     return dispatch(fetchItem(id));
   }
   return false;

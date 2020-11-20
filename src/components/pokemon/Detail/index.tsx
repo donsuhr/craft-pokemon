@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { getDetailState } from '@/store/selectors';
 import { ApplicationState, AsyncStatus } from '@/store/types';
 import styles from './Detail.module.scss';
@@ -18,8 +18,9 @@ interface Props {
 }
 
 const renders = 0;
-const PokemonDetail = ({ id, retry=true }: Props) => {
+const PokemonDetail = ({ id, retry = true }: Props) => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(fetchIfNeeded({ id, retry, requestor: Requestor.Details }));
@@ -99,7 +100,7 @@ const PokemonDetail = ({ id, retry=true }: Props) => {
           <Map id={id} />
         </div>
       </div>
-      <Link to="/">Back</Link>
+      <Link to={{ pathname: '/', search: location.search }}>Back</Link>
     </>
   );
 };
