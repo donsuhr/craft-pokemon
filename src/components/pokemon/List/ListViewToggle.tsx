@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import StyledRadio from '@/components/StyledRadio';
+import { QUERY_KEY_PAGE } from '@/components/Pager';
 
-export const QUERY_KEY = 'view';
+export const QUERY_KEY_VIEW = 'view';
 export const QUERY_VAL_BAG = 'bag';
 
 export default function ListViewToggle() {
@@ -11,8 +12,8 @@ export default function ListViewToggle() {
 
   const handleToggleChange = (view: string) => {
     const query = new URLSearchParams(location.search);
-    query.set(QUERY_KEY, view);
-    query.delete('page');
+    query.set(QUERY_KEY_VIEW, view);
+    query.delete(QUERY_KEY_PAGE);
     history.push(`${location.pathname}?${query}`);
   };
 
@@ -22,7 +23,7 @@ export default function ListViewToggle() {
   ];
 
   const initialQuery = new URLSearchParams(location.search);
-  const isViewAll = initialQuery.get(QUERY_KEY) !== QUERY_VAL_BAG;
+  const isViewAll = initialQuery.get(QUERY_KEY_VIEW) !== QUERY_VAL_BAG;
   const viewAllToggleValue = isViewAll ? 'all' : QUERY_VAL_BAG;
 
   return (

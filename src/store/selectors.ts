@@ -1,9 +1,10 @@
 import Fuse from 'fuse.js';
 import { Item } from '@/components/pokemon/List/types';
 import {
-  QUERY_KEY,
+  QUERY_KEY_VIEW,
   QUERY_VAL_BAG,
 } from '@/components/pokemon/List/ListViewToggle';
+import { QUERY_KEY_PAGE } from '@/components/Pager';
 import { getInBag } from '../components/pokemon/Bag/reducers';
 import { ApplicationState, LocationState } from './types';
 
@@ -26,10 +27,10 @@ export function getFilteredItems(
   const uiState = getUiState(state);
   const listState = getListState(state);
   const query = new URLSearchParams(location.search);
-  const page = parseInt(query.get('page') || '1', 10);
+  const page = parseInt(query.get(QUERY_KEY_PAGE) || '1', 10);
 
   let items: Item[] = Object.values(listState.byId);
-  const showAll = query.get(QUERY_KEY)?.toLowerCase() !== QUERY_VAL_BAG;
+  const showAll = query.get(QUERY_KEY_VIEW)?.toLowerCase() !== QUERY_VAL_BAG;
   if (!showAll) {
     items = items.filter((x: Item) => x.id && getInBag(bagState, x.id));
   }

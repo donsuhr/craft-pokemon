@@ -11,6 +11,8 @@ interface Props {
   onChange?: (x: any) => any;
 }
 
+export const QUERY_KEY_SEARCH = 's';
+
 export default function Search({
   value = '',
   idSuffix = 'search',

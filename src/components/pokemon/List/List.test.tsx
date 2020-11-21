@@ -4,7 +4,7 @@ import { createMemoryHistory } from 'history';
 import { render, screen } from '@/test-utils';
 import { getStateFixture, mockStoreCreator } from '@/store/mock-store-creator';
 import List from './index';
-import { QUERY_VAL_BAG } from './ListViewToggle';
+import { QUERY_KEY_VIEW, QUERY_VAL_BAG } from './ListViewToggle';
 
 describe('List', () => {
   afterEach(() => jest.restoreAllMocks());
@@ -37,7 +37,7 @@ describe('List', () => {
   test('shows only items in bag', async () => {
     const state = getStateFixture();
     const history = createMemoryHistory();
-    const route = `/?view=${QUERY_VAL_BAG}`;
+    const route = `/?${QUERY_KEY_VIEW}=${QUERY_VAL_BAG}`;
     history.push(route);
     const { container } = render(
       <Router history={history}>

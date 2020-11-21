@@ -20,6 +20,8 @@ type LinkAttributes = {
   className: string;
 };
 
+export const QUERY_KEY_PAGE = 'page';
+
 export default function Pager({
   page,
   total,
@@ -33,7 +35,7 @@ export default function Pager({
     const result: LinkAttributes[] = [];
     const search = new URLSearchParams(location.search);
     for (let i = 1; i <= Math.ceil(total / perPage); i += 1) {
-      search.set('page', i.toString());
+      search.set(QUERY_KEY_PAGE, i.toString());
       const className = classNames({
         [styles.link]: true,
         [styles.current]: i === page,

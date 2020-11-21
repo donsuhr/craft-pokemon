@@ -8,13 +8,14 @@ import {
   UNFILTERED_PAGE_LIMIT,
 } from '@/store/selectors';
 import { ApplicationState } from '@/store/types';
-import Pager from '@/components/Pager';
+import Pager, { QUERY_KEY_PAGE } from '@/components/Pager';
+import { QUERY_KEY_SEARCH } from '@/components/Search';
 import ListItem from './ListItem';
 import { Item } from './types';
 import styles from './List.module.scss';
 import { getLength } from './reducers';
 import { getLength as getBagStageLength } from '../Bag/reducers';
-import { QUERY_VAL_BAG } from './ListViewToggle';
+import { QUERY_KEY_VIEW, QUERY_VAL_BAG } from './ListViewToggle';
 
 const PokemonList = () => {
   const location = useLocation();
@@ -37,10 +38,10 @@ const PokemonList = () => {
 
   React.useEffect(() => {
     const query = new URLSearchParams(location.search);
-    const locPage = parseInt(query.get('page') || '1', 10);
+    const locPage = parseInt(query.get(QUERY_KEY_PAGE) || '1', 10);
     updatePage(locPage);
-    const isSearch = (query.get('s') || '').trim() !== '';
-    const isBagView = query.get('view') === QUERY_VAL_BAG;
+    const isSearch = (query.get(QUERY_KEY_SEARCH) || '').trim() !== '';
+    const isBagView = query.get(QUERY_KEY_VIEW) === QUERY_VAL_BAG;
 
     updateTotal(isBagView ? inBagTotal : totalTotal);
     updatePagerDisabled(isSearch);

@@ -6,12 +6,11 @@ import { getListState, getUiState } from '@/store/selectors';
 import { ApplicationState, AsyncStatus } from '@/store/types';
 import { setTextFilter } from '@/store/ui/actions';
 import { fetchItemsIfNeeded } from '@/components/pokemon/List/actions';
+import { QUERY_KEY_PAGE } from '@/components/Pager';
 import List from '../components/pokemon/List';
 import Loading from '../components/Loading';
-import Search from '../components/Search';
+import Search, { QUERY_KEY_SEARCH } from '../components/Search';
 import ListViewToggle from '../components/pokemon/List/ListViewToggle';
-
-export const QUERY_KEY = 's';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -34,7 +33,7 @@ const Home = () => {
 
   useEffect(() => {
     const initialQuery = new URLSearchParams(location.search);
-    const searchText = initialQuery.get(QUERY_KEY) || '';
+    const searchText = initialQuery.get(QUERY_KEY_SEARCH) || '';
     if (searchText !== uiFilterText) {
       dispatch(setTextFilter(searchText));
     }
@@ -47,8 +46,8 @@ const Home = () => {
     }
     const updateQuery = () => {
       const query = new URLSearchParams(location.search);
-      query.set(QUERY_KEY, text);
-      query.delete('page');
+      query.set(QUERY_KEY_SEARCH, text);
+      query.delete(QUERY_KEY_PAGE);
       history.push(`${location.pathname}?${query}`);
     };
     if (text === '') {
