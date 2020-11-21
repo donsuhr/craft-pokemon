@@ -12,6 +12,7 @@ const syncServiceWorkerMiddleware: Middleware = (store) => (next) => (
     action.type === PokemonBagActionTypes.ADD ||
     action.type === PokemonBagActionTypes.REMOVE
   ) {
+    next(action);
     const bagState = getBagState(store.getState());
     const inBag = getBagItems(bagState);
 
@@ -21,8 +22,9 @@ const syncServiceWorkerMiddleware: Middleware = (store) => (next) => (
         payload: inBag,
       });
     });
+  } else {
+    next(action);
   }
-  return next(action);
 };
 
 export default syncServiceWorkerMiddleware;
