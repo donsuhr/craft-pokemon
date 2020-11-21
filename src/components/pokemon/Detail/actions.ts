@@ -2,8 +2,7 @@
 import qrate from 'qrate';
 import { AppThunk } from '@/store/types';
 import { getDetailState } from '@/store/selectors';
-import config from '@/config';
-import { checkFetchResponse, parseJSON } from '@/service/util';
+import { getDetails } from '@/service/details';
 import { shouldFetch } from './reducers';
 import {
   receiveSuccess,
@@ -18,26 +17,18 @@ type FetcherFn = (
   done: () => void,
 ) => void;
 
-const fetcher: FetcherFn = ({ id, dispatch }, done) => {
-  const url =
-    process.env.DEV_USE_FIXTURE_FOR_API === 'true'
-      ? /* istanbul ignore next */
-        '/components/pokemon/Detail/fixtures/1.json'
-      : `${config.pokeapi.url}/pokemon/${id}`;
-  fetch(url)
-    .then(checkFetchResponse)
-    .then(parseJSON)
-    .then((json) => {
-      if (json.offline) {
-        dispatch(receiveOffline(id));
-      } else {
-        dispatch(receiveSuccess(json, id));
-      }
-    })
-    .catch((e) => {
-      dispatch(receiveError(e, id));
-    })
-    .finally(done);
+const fetcher: FetcherFn = async ({ id, dispatch }, done) => {
+  try {
+    const details = await getDetails(id);
+    if (details.offline) {
+      dispatch(receiveOffline(id));
+    } else {
+      dispatch(receiveSuccess(details, id));
+    }
+  } catch (e) {
+    dispatch(receiveError(e, id));
+  }
+  done();
 };
 
 // concurrency, rateLimit x workers per second
