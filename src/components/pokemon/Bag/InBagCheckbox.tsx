@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ApplicationState } from '@/store/types';
 import { getBagState } from '@/store/selectors';
 import { getInBag } from './reducers';
-import { add, remove } from './actions';
+import { addAndCache, remove } from './actions';
 import styles from './InBagCheckbox.module.scss';
 
 interface Props {
@@ -19,7 +19,7 @@ export default function InBagCheckbox({ id }: Props) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = event;
     if (target.checked) {
-      dispatch(add(id));
+      dispatch(addAndCache(id));
     } else {
       dispatch(remove(id));
     }
