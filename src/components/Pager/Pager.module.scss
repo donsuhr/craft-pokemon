@@ -1,0 +1,70 @@
+$border-color: #ccc;
+$theme-red: #f00;
+$theme-dark-red: #c00;
+$theme-blue: #3b4cca;
+$theme-yellow: #ffde00;
+$theme-dark-yellow: #b3a125;
+$theme-yellow-glow: rgba(255, 222, 0, 0.7);
+
+.pager {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: inline-block;
+}
+
+.link {
+  display: block;
+  width: 2em;
+  margin: 0 1ch 1ch 0;
+  font-size: 0.8em;
+  line-height: 2em;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid $border-color;
+
+  &:link,
+  &:visited,
+  &:hover,
+  &:active {
+    color: $theme-blue;
+    text-decoration: none;
+  }
+
+  &:hover,
+  &:focus {
+    border: 1px solid $theme-dark-yellow;
+    box-shadow: 0 5px 15px $theme-yellow-glow;
+  }
+}
+
+.current {
+  font-weight: bold;
+  // font-size: 1em;
+  border: 1px solid $theme-red;
+
+  &:hover,
+  &:focus {
+    border: 1px solid $theme-red;
+  }
+}
+
+.disabled {
+  cursor: pointer;
+  opacity: 0.5;
+
+  .link {
+    color: $theme-blue;
+    cursor: pointer;
+    opacity: 0.5;
+
+    &:hover,
+    &:focus {
+      border: 1px solid $border-color;
+      box-shadow: none;
+    }
+  }
+}
