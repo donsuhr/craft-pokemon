@@ -25,3 +25,7 @@ export function getInBag(state: PokemonBagState, id: string) {
 export function getBagItems(state: PokemonBagState) {
   return state;
 }
+
+export function getLength(state: PokemonBagState) {
+  return state.length;
+}

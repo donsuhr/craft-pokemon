@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Router } from 'react-router-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
+import { fireEvent, render, screen } from '@testing-library/react';
 import ListViewToggle, { QUERY_VAL_BAG } from './ListViewToggle';
 
 describe('ListViewToggle', () => {

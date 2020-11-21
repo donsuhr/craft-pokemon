@@ -1,32 +1,68 @@
 import { getStateFixture } from '@/store/mock-store-creator';
-import { hasEverLoaded, isFetching, byId, getItemById } from './reducers';
+import { AsyncStatus } from '@/store/types';
+import {
+  byId,
+  getItemById,
+  status,
+  error,
+  getLength,
+  shouldFetchItems,
+} from './reducers';
 import { PokemonActionTypes, Items } from './types';
 
 describe('pokemon reducer', () => {
-  describe('hasEverLoaded', () => {
+  describe('status', () => {
     it('should return the initial state', () => {
-      expect(hasEverLoaded(undefined, { type: 'foo' })).toBe(false);
+      expect(status(undefined, { type: 'foo' })).toBe(AsyncStatus.initial);
     });
-    it('should switch to true', () => {
+
+    it('should switch to success', () => {
       expect(
-        hasEverLoaded(undefined, { type: PokemonActionTypes.RECEIVE_ITEMS }),
-      ).toBe(true);
+        status(undefined, { type: PokemonActionTypes.RECEIVE_ITEMS }),
+      ).toBe(AsyncStatus.succeeded);
+    });
+    it('should switch to error', () => {
+      expect(status(undefined, { type: PokemonActionTypes.ERROR })).toBe(
+        AsyncStatus.failed,
+      );
+    });
+
+    it('will set an offline', () => {
+      expect(
+        status(undefined, {
+          type: PokemonActionTypes.OFFLINE,
+        }),
+      ).toBe(AsyncStatus.offline);
+    });
+
+    it('will set an offline', () => {
+      expect(
+        status(undefined, {
+          type: PokemonActionTypes.REQUEST_ITEMS,
+        }),
+      ).toBe(AsyncStatus.loading);
     });
   });
 
-  describe('isFetching', () => {
-    it('should return the initial state', () => {
-      expect(isFetching(undefined, { type: 'foo' })).toBe(false);
+  describe('error', () => {
+    it('starts null', () => {
+      expect(error(undefined, { type: 'foo' })).toBeNull();
     });
-    it('should switch to true', () => {
+
+    it('should switch to error', () => {
+      const err = new Error('message');
       expect(
-        isFetching(undefined, { type: PokemonActionTypes.REQUEST_ITEMS }),
-      ).toBe(true);
+        error(undefined, {
+          type: PokemonActionTypes.ERROR,
+          payload: { error: err },
+        }),
+      ).toBe('message');
     });
-    it('should switch to false', () => {
+
+    it('resets to null for loading', () => {
       expect(
-        isFetching(undefined, { type: PokemonActionTypes.RECEIVE_ITEMS }),
-      ).toBe(false);
+        error(undefined, { type: PokemonActionTypes.RECEIVE_ITEMS }),
+      ).toBeNull();
     });
   });
 
@@ -82,6 +118,22 @@ describe('pokemon reducer', () => {
     it('getItemById', () => {
       const { pokemon } = getStateFixture();
       expect(getItemById(pokemon, '1').name).toBe('one');
+    });
+
+    it('get length', () => {
+      const { pokemon } = getStateFixture();
+      expect(getLength(pokemon)).toBe(3);
+    });
+
+    it('should fetch false', () => {
+      const { pokemon } = getStateFixture();
+      expect(shouldFetchItems(pokemon)).toBeFalsy();
+    });
+
+    it('should fetch true', () => {
+      const { pokemon } = getStateFixture();
+      pokemon.status = AsyncStatus.initial;
+      expect(shouldFetchItems(pokemon)).toBeTruthy();
     });
   });
 });

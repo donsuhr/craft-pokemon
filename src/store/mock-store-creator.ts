@@ -33,8 +33,8 @@ const stateFixture: ApplicationState = {
         url: 'url',
       },
     },
-    isFetching: false,
-    hasEverLoaded: true,
+    status: AsyncStatus.succeeded,
+    error: null,
   },
   pokemonBag: ['1', '2'],
   pokemonDetail: {

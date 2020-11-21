@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { getListState, getUiState } from '@/store/selectors';
-import { ApplicationState } from '@/store/types';
+import { ApplicationState, AsyncStatus } from '@/store/types';
 import { setTextFilter } from '@/store/ui/actions';
 import { fetchItemsIfNeeded } from '@/components/pokemon/List/actions';
 import List from '../components/pokemon/List';
@@ -24,8 +24,8 @@ const Home = () => {
     (state: ApplicationState) => getUiState(state).filterText,
   );
 
-  const isLoading = useSelector(
-    (state: ApplicationState) => getListState(state).isFetching,
+  const { status } = useSelector((state: ApplicationState) =>
+    getListState(state),
   );
 
   useEffect(() => {
@@ -45,16 +45,37 @@ const Home = () => {
     if (timeout) {
       clearTimeout(timeout);
     }
-    const timeoutId = window.setTimeout(() => {
+    const updateQuery = () => {
       const query = new URLSearchParams(location.search);
       query.set(QUERY_KEY, text);
+      query.delete('page');
       history.push(`${location.pathname}?${query}`);
-    }, 1500);
-
-    updateTimeout(timeoutId);
+    };
+    if (text === '') {
+      updateQuery();
+    } else {
+      const timeoutId = window.setTimeout(updateQuery, 1500);
+      updateTimeout(timeoutId);
+    }
   };
 
-  if (isLoading) {
+  if (status === AsyncStatus.failed) {
+    return (
+      <>
+        <p className="error">There was an error loading the items...</p>
+      </>
+    );
+  }
+
+  if (status === AsyncStatus.offline) {
+    return (
+      <>
+        <p className="error">Error loading items. Check connection...</p>
+      </>
+    );
+  }
+
+  if (status === AsyncStatus.initial || status === AsyncStatus.loading) {
     return <Loading withBg>Loading...</Loading>;
   }
 

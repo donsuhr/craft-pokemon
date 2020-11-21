@@ -1,19 +1,16 @@
 import Fuse from 'fuse.js';
 import { Item } from '@/components/pokemon/List/types';
-import { Search } from 'history';
-
 import {
   QUERY_KEY,
   QUERY_VAL_BAG,
 } from '@/components/pokemon/List/ListViewToggle';
 import { getInBag } from '../components/pokemon/Bag/reducers';
-import { ApplicationState } from './types';
+import { ApplicationState, LocationState } from './types';
 
 let currentFilter = '';
 
-type LocationState = {
-  search: Search;
-};
+const FILTERED_LIMIT = 20;
+export const UNFILTERED_PAGE_LIMIT = 16;
 
 export const getDetailState = (state: ApplicationState) => state.pokemonDetail;
 export const getBagState = (state: ApplicationState) => state.pokemonBag;
@@ -29,6 +26,7 @@ export function getFilteredItems(
   const uiState = getUiState(state);
   const listState = getListState(state);
   const query = new URLSearchParams(location.search);
+  const page = parseInt(query.get('page') || '1', 10);
 
   let items: Item[] = Object.values(listState.byId);
   const showAll = query.get(QUERY_KEY)?.toLowerCase() !== QUERY_VAL_BAG;
@@ -45,7 +43,13 @@ export function getFilteredItems(
       keys: ['name'],
     };
     const fuse = new Fuse(items, options);
-    return fuse.search(filterText).map((x) => x.item);
+    return fuse
+      .search(filterText)
+      .map((x) => x.item)
+      .slice(0, FILTERED_LIMIT);
   }
-  return items;
+
+  const start = (page - 1) * UNFILTERED_PAGE_LIMIT;
+  const end = start + UNFILTERED_PAGE_LIMIT;
+  return items.slice(start, end);
 }

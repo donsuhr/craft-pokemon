@@ -17,7 +17,7 @@ export default function Pager({
   disabled = false,
 }: Props) {
   const pages = [];
-  for (let i = 1; i <= Math.ceil(total / perPage); i+=1) {
+  for (let i = 1; i <= Math.ceil(total / perPage); i += 1) {
     const className = classNames({
       [styles.link]: true,
       [styles.current]: i === page,

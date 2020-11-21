@@ -12,6 +12,7 @@ export default function ListViewToggle() {
   const handleToggleChange = (view: string) => {
     const query = new URLSearchParams(location.search);
     query.set(QUERY_KEY, view);
+    query.delete('page');
     history.push(`${location.pathname}?${query}`);
   };
 

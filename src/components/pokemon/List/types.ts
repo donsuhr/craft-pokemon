@@ -1,6 +1,8 @@
 export enum PokemonActionTypes {
   REQUEST_ITEMS = '@@pokemon/REQUEST_ITEMS',
   RECEIVE_ITEMS = '@@pokemon/RECEIVE_ITEMS',
+  ERROR = '@@pokemon/ERROR',
+  OFFLINE = '@@pokemon/OFFLINE',
 }
 
 export interface ResponseItem {

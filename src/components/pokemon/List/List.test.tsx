@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter, Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 import { render, screen } from '@/test-utils';
 import { getStateFixture, mockStoreCreator } from '@/store/mock-store-creator';
 import List from './index';
+import { QUERY_VAL_BAG } from './ListViewToggle';
 
 describe('List', () => {
   afterEach(() => jest.restoreAllMocks());
@@ -19,8 +21,26 @@ describe('List', () => {
       name: 'test target',
       url: 'http://',
     };
-    render(
-      <Router>
+    const { container } = render(
+      <BrowserRouter>
+        <List />
+      </BrowserRouter>,
+      {
+        store: mockStoreCreator(state),
+      },
+    );
+    await new Promise(setImmediate);
+    expect(screen.getAllByText(/test target/i).length).toBeGreaterThan(0);
+    expect(container.querySelectorAll('.listItem').length).toBe(4);
+  });
+
+  test('shows only items in bag', async () => {
+    const state = getStateFixture();
+    const history = createMemoryHistory();
+    const route = `/?view=${QUERY_VAL_BAG}`;
+    history.push(route);
+    const { container } = render(
+      <Router history={history}>
         <List />
       </Router>,
       {
@@ -28,6 +48,6 @@ describe('List', () => {
       },
     );
     await new Promise(setImmediate);
-    expect(screen.getAllByText(/test target/i).length).toBeGreaterThan(0);
+    expect(container.querySelectorAll('.listItem').length).toBe(2);
   });
 });

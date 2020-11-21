@@ -1,5 +1,6 @@
 import { ThunkAction } from 'redux-thunk';
 import { Action } from 'redux';
+import { Search } from 'history';
 import { PokemonListState } from '../components/pokemon/List/reducers';
 import { PokemonDetailState } from '../components/pokemon/Detail/reducers';
 import { PokemonBagState } from '../components/pokemon/Bag/reducers';
@@ -36,4 +37,8 @@ export enum AsyncStatus {
 export type AsyncItem = {
   status: AsyncStatus;
   error: string | null;
+};
+
+export type LocationState = {
+  search: Search;
 };
