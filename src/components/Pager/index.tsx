@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import styles from './Pager.module.scss';
 
@@ -10,25 +10,47 @@ interface Props {
   perPage: number;
 }
 
+type LinkAttributes = {
+  id: string;
+  text: string;
+  to: {
+    pathnName: string;
+    search: string;
+  };
+  className: string;
+};
+
 export default function Pager({
   page,
   total,
   perPage,
   disabled = false,
 }: Props) {
-  const pages = [];
-  for (let i = 1; i <= Math.ceil(total / perPage); i += 1) {
-    const className = classNames({
-      [styles.link]: true,
-      [styles.current]: i === page,
-    });
-    pages.push({
-      id: i,
-      text: i,
-      to: { pathnName: '/', search: `?page=${i}` },
-      className,
-    });
+  const location = useLocation();
+  const [pages, updatePages] = React.useState<LinkAttributes[]>([]);
+
+  function calculatePages() {
+    const result: LinkAttributes[] = [];
+    const search = new URLSearchParams(location.search);
+    for (let i = 1; i <= Math.ceil(total / perPage); i += 1) {
+      search.set('page', i.toString());
+      const className = classNames({
+        [styles.link]: true,
+        [styles.current]: i === page,
+      });
+      result.push({
+        id: i.toString(),
+        text: i.toString(),
+        to: { pathnName: '/', search: search.toString() },
+        className,
+      });
+    }
+    return result;
   }
+
+  React.useEffect(() => {
+    updatePages(calculatePages());
+  }, [location, total, page, perPage, disabled]);
 
   return (
     <ol

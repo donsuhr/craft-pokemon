@@ -37,7 +37,7 @@ const PokemonList = () => {
 
   React.useEffect(() => {
     const query = new URLSearchParams(location.search);
-    const locPage = parseInt(query.get('page') || '0', 10);
+    const locPage = parseInt(query.get('page') || '1', 10);
     updatePage(locPage);
     const isSearch = (query.get('s') || '').trim() !== '';
     const isBagView = query.get('view') === QUERY_VAL_BAG;
