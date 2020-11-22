@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { getDetailState } from '@/store/selectors';
 import { ApplicationState, AsyncStatus } from '@/store/types';
+import Header from '@/components/Header';
 import styles from './Detail.module.scss';
 import Map from '../Map/Map';
 import InBagCheckbox from '../Bag/InBagCheckbox';
@@ -17,7 +18,6 @@ interface Props {
   retry?: boolean;
 }
 
-const renders = 0;
 const PokemonDetail = ({ id, retry = true }: Props) => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -64,17 +64,12 @@ const PokemonDetail = ({ id, retry = true }: Props) => {
 
   return (
     <>
-      <h1>
-        Pokemon San Diego Designs - 
-        {' '}
-        {name} 
-        {' '}
-        {renders}
-      </h1>
-      <div className={styles.container}>
+      <Header title={name} />
+      <div className={styles.wrapper}>
         <div className={styles.details}>
           <img src={img} alt={name} className={styles.img} />
           <p className={styles.name}>{name}</p>
+          <h2 className={styles.subtitle}>Stats</h2>
           <dl className={styles.statList}>
             <dt>Height</dt>
             <dd>{height}</dd>
@@ -84,11 +79,13 @@ const PokemonDetail = ({ id, retry = true }: Props) => {
             <dd>{baseExperience}</dd>
           </dl>
           <InBagCheckbox id={id} />
+          <h2 className={styles.subtitle}>Type</h2>
           <ul className={styles.typesList}>
             {types.map((x) => (
               <li key={x}>{x}</li>
             ))}
           </ul>
+          <h2 className={styles.subtitle}>Abilities</h2>
           <ul className={styles.typesList}>
             {abilities.map((x) => (
               <li key={x}>{x}</li>

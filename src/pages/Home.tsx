@@ -7,6 +7,7 @@ import { ApplicationState, AsyncStatus } from '@/store/types';
 import { setTextFilter } from '@/store/ui/actions';
 import { fetchItemsIfNeeded } from '@/components/pokemon/List/actions';
 import { QUERY_KEY_PAGE } from '@/components/Pager';
+import Header from '@/components/Header';
 import List from '../components/pokemon/List';
 import Loading from '../components/Loading';
 import Search, { QUERY_KEY_SEARCH } from '../components/Search';
@@ -80,12 +81,14 @@ const Home = () => {
 
   return (
     <section className="container">
-      <h1>Pokemon San Diego Designs</h1>
-      <ListViewToggle />
-      <Search onChange={handleSearchChange} value={uiFilterText} />
       <a className="skip-nav-link" href="#main">
         Skip Navigation
       </a>
+      <Header />
+      <div className="app__controls">
+        <ListViewToggle />
+        <Search onChange={handleSearchChange} value={uiFilterText} />
+      </div>
       <List />
     </section>
   );

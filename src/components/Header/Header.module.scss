@@ -1,0 +1,65 @@
+@import '@/styles/variables';
+
+.header {
+  display: block;
+  text-align: center;
+}
+
+.logo {
+  position: relative;
+  display: inline-block;
+  margin: 0 0 var(--rh);
+}
+
+.logoPokemon {
+  display: block;
+  color: var(--themeYellow);
+  font-weight: normal;
+  font-size: 3rem;
+  font-family:
+    pokemonFontSolid,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Ubuntu,
+    'Helvetica Neue',
+    Oxygen,
+    Cantarell,
+    sans-serif;
+  line-height: 5rem;
+  text-shadow:
+    3px 3px 0 #000,
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    1px 4px 7px rgba(150, 150, 150, 0.8);
+  -webkit-text-stroke: 2px var(--themeBlue);
+
+  @media screen and (min-width: $brake-md) {
+    font-size: 5rem;
+    line-height: 7rem;
+    -webkit-text-stroke: 3px var(--themeBlue);
+  }
+}
+
+.logoEndsDecenders {
+  padding-bottom: var(--rh);
+}
+
+.logoRest {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  display: block;
+  font-weight: normal;
+  font-size: 0.9rem;
+  white-space: nowrap;
+
+  @media screen and (min-width: $brake-md) {
+    font-size: 1.1rem;
+  }
+}
