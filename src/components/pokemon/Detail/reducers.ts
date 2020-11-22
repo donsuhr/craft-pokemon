@@ -131,7 +131,8 @@ export function shouldFetch(
   const useLimit =
     requestor &&
     requestor === Requestor.ListItem &&
-    process.env.DEV_LIMIT_DETAIL_LOAD;
+    process.env.DEV_LIMIT_DETAIL_LOAD &&
+    !Number.isNaN(parseInt(process.env.DEV_LIMIT_DETAIL_LOAD, 10));
   const underLimit = useLimit
     ? parseInt(id, 10) < parseInt(process.env.DEV_LIMIT_DETAIL_LOAD!, 10)
     : true;
