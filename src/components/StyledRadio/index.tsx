@@ -12,6 +12,7 @@ type Item = {
 interface Props {
   items: Item[];
   value: string;
+  label: string;
   name?: string;
   onChange?: (x: string) => void;
   className?: string;
@@ -23,6 +24,7 @@ const StyledRadio = ({
   name = 'toggle-switch',
   onChange,
   className,
+  label,
 }: Props) => {
   const [val, updateVal] = useState(value);
 
@@ -38,27 +40,32 @@ const StyledRadio = ({
     }
   };
 
-  const cn = classNames(styles.toggle, className);
+  const cn = classNames(styles.toggle, className, 'styled-radio');
 
   return (
-    <ul className={cn}>
-      {items.map((x, i) => {
-        const id = `StyledRadio${i}${name}`;
-        return (
-          <li key={id}>
-            <input
-              type="radio"
-              id={id}
-              name={name}
-              value={x.value}
-              checked={val === x.value}
-              onChange={handleChange}
-            />
-            <label htmlFor={id}>{x.label}</label>
-          </li>
-        );
-      })}
-    </ul>
+    <div className={cn}>
+      <div className="sr-only" id={`StyledRadio${name}`}>
+        {label}
+      </div>
+      <ul role="radiogroup" aria-labelledby={`StyledRadio${name}`}>
+        {items.map((x, i) => {
+          const id = `StyledRadio${i}${name}`;
+          return (
+            <li key={id}>
+              <input
+                type="radio"
+                id={id}
+                name={name}
+                value={x.value}
+                checked={val === x.value}
+                onChange={handleChange}
+              />
+              <label htmlFor={id}>{x.label}</label>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 };
 

@@ -1,0 +1,18 @@
+.search-form {
+  margin-right: auto;
+  margin-bottom: var(--rh);
+
+  @media screen and (min-width: $brake-md) {
+    margin-right: 0;
+  }
+
+  label {
+    color: var(--borderColor);
+    font-size: 0.75em;
+  }
+
+  input {
+    border-color: var(--themeDarkRed);
+    border-radius: 0;
+  }
+}

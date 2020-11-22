@@ -39,6 +39,7 @@ export default function Pager({
       const className = classNames({
         [styles.link]: true,
         [styles.current]: i === page,
+        current: i === page,
       });
       result.push({
         id: i.toString(),
@@ -59,14 +60,16 @@ export default function Pager({
       className={classNames({
         [styles.pager]: true,
         [styles.disabled]: disabled,
+        pager: true,
+        disabled,
       })}
     >
       {pages.map((x) => (
         <li key={x.id} className={styles.item}>
           {disabled ? (
-            <span className={x.className}>{x.text}</span>
+            <span className={`${x.className} pager__link`}>{x.text}</span>
           ) : (
-            <Link to={x.to} className={x.className}>
+            <Link to={x.to} className={`${x.className} pager__link`}>
               {x.text}
             </Link>
           )}

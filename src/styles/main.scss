@@ -1,3 +1,67 @@
+@import 'variables';
+
+:global {
+  @import 'components/toggle';
+  @import 'components/search-form';
+  @import 'components/pager';
+
+  .container {
+    position: relative;
+    max-width: 960px;
+    margin: auto;
+  }
+
+  .app__controls {
+    // flex-wrap: wrap;
+    // align-items: center;
+    // justify-content: center;
+    margin: 0;
+
+    @media screen and (min-width: $brake-md) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .skip-nav-link {
+    position: absolute;
+    top: auto;
+    left: -999px;
+    width: 1px;
+    height: 1px;
+
+    &:focus {
+      position: static;
+      width: auto;
+      height: auto;
+      color: var(--themeDarkRed);
+    }
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+  }
+}
+
+:root {
+  --borderColor: #ccc;
+  --themeRed: #f00;
+  --themeDarkRed: #c00;
+  --themeBlue: #3b4cca;
+  --themeYellow: #ffde00;
+  --themeDarkYellow: #b3a125;
+  --themeYellowGlow: rgba(255, 222, 0, 0.7);
+  --rh: 1.5rem;
+}
+
 html {
   box-sizing: border-box;
 }
@@ -9,6 +73,7 @@ html {
 }
 
 body {
+  margin: calc(var(--rh) * 0.5);
   font-family:
     system-ui,
     -apple-system,
@@ -22,10 +87,8 @@ body {
     sans-serif;
 }
 
-:global {
-  .container {
-    position: relative;
-    max-width: 960px;
-    margin: auto;
-  }
+@font-face {
+  font-family: 'pokemonFontSolid';
+  src: url('/font/Pokemon Solid.ttf') format('truetype');
+  font-display: swap;
 }

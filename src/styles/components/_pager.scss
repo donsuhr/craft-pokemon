@@ -1,0 +1,25 @@
+.pager {
+  margin-bottom: var(--rh);
+}
+
+.pager__link {
+  margin: 0.5ch;
+  border-color: var(--borderColor);
+
+  &:link,
+  &:visited,
+  &:hover,
+  &:active {
+    color: var(--themeBlue);
+  }
+
+  &:hover,
+  &:focus {
+    border-color: var(--themeRed);
+    box-shadow: 0 5px 15px var(--themeYellowGlow);
+  }
+
+  &.current {
+    border-color: var(--themeRed);
+  }
+}

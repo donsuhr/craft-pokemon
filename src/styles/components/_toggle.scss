@@ -1,0 +1,23 @@
+@import '@/styles/variables';
+
+.list-view-toggle.styled-radio {
+  margin-bottom: var(--rh);
+  text-align: center;
+
+  @media screen and (min-width: $brake-md) {
+    margin-right: var(--rh);
+  }
+
+  ul:focus-within {
+    box-shadow: 0 0.25em 1em var(--themeYellowGlow);
+  }
+
+  label {
+    font-size: 0.875rem;
+    border-color: var(--themeDarkRed);
+  }
+
+  input:checked + label {
+    background-color: var(--themeBlue);
+  }
+}

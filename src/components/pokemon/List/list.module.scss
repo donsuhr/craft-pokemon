@@ -1,8 +1,18 @@
+@import '@/styles/variables';
+
 .list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  display: grid;
+  grid-gap: var(--rh);
   margin: 0;
   padding: 0;
   list-style-type: none;
+
+  @media screen and (min-width: $brake-md) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media screen and (min-width: $brake-lg) {
+    grid-gap: calc(var(--rh) * 0.5);
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 }

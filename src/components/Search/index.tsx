@@ -40,7 +40,11 @@ export default function Search({
 
   const id = `Search${idSuffix}`;
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form
+      className={`${styles.form} search-form`}
+      onSubmit={handleSubmit}
+      role="search"
+    >
       <input
         type="search"
         placeholder="Search..."

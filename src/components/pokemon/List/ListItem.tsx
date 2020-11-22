@@ -30,7 +30,7 @@ const ListItem = ({ id, name }: Props) => {
   );
 
   return (
-    <li className={styles.listItem}>
+    <li>
       {status === AsyncStatus.loading && <Loading />}
       <Link
         to={{ pathname: `/detail/${id}`, search: location.search }}

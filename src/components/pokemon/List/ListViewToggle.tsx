@@ -31,6 +31,8 @@ export default function ListViewToggle() {
       items={toggleItems}
       onChange={handleToggleChange}
       value={viewAllToggleValue}
+      label="View"
+      className="list-view-toggle"
     />
   );
 }
