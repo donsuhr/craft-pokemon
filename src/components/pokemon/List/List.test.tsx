@@ -31,7 +31,7 @@ describe('List', () => {
     );
     await new Promise(setImmediate);
     expect(screen.getAllByText(/test target/i).length).toBeGreaterThan(0);
-    expect(container.querySelectorAll('.listItem').length).toBe(4);
+    expect(container.querySelectorAll('#main li').length).toBe(4);
   });
 
   test('shows only items in bag', async () => {
@@ -48,6 +48,6 @@ describe('List', () => {
       },
     );
     await new Promise(setImmediate);
-    expect(container.querySelectorAll('.listItem').length).toBe(2);
+    expect(container.querySelectorAll('#main li').length).toBe(2);
   });
 });

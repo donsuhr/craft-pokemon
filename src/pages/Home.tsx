@@ -83,6 +83,9 @@ const Home = () => {
       <h1>Pokemon San Diego Designs</h1>
       <ListViewToggle />
       <Search onChange={handleSearchChange} value={uiFilterText} />
+      <a className="skip-nav-link" href="#main">
+        Skip Navigation
+      </a>
       <List />
     </section>
   );

@@ -55,7 +55,7 @@ const PokemonList = () => {
         perPage={UNFILTERED_PAGE_LIMIT}
         disabled={pagerDisabled}
       />
-      <ul className={styles.list}>
+      <ul className={styles.list} id="main">
         {items.map((x) => (
           <ListItem key={x.id} id={x.id} name={x.name} />
         ))}
