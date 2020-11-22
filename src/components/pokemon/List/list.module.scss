@@ -1,6 +1,7 @@
 @import '@/styles/variables';
 
 .list {
+  /* autoprefixer grid: off */
   display: grid;
   grid-gap: var(--rh);
   margin: 0;
@@ -8,10 +9,12 @@
   list-style-type: none;
 
   @media screen and (min-width: $brake-md) {
+    /* autoprefixer grid: off */
     grid-template-columns: 1fr 1fr;
   }
 
   @media screen and (min-width: $brake-lg) {
+    /* autoprefixer grid: off */
     grid-gap: calc(var(--rh) * 0.5);
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
