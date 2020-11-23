@@ -10,7 +10,7 @@ import { ApplicationState, LocationState } from './types';
 
 let currentFilter = '';
 
-const FILTERED_LIMIT = 20;
+const FILTERED_LIMIT = 12;
 export const UNFILTERED_PAGE_LIMIT = 16;
 
 export const getDetailState = (state: ApplicationState) => state.pokemonDetail;
