@@ -1,0 +1,6 @@
+.htaccess
+.well-known
+.DS_Store
+screen1.jpg
+screen2.jpg
+thumb.jpg
