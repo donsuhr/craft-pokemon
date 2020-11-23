@@ -1,7 +1,7 @@
 $loading-bg-color: #666;
 $loading-text-color: #fff;
 $loading-background-color: rgba(0, 0, 0, 0.5);
-$loading-img-url: '/img/sprite_loading_v2.gif' !default;
+$loading-img-url: '../img/sprite_loading_v2.gif' !default;
 
 .loading {
   position: absolute;

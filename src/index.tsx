@@ -18,6 +18,6 @@ if (
   process.env.DEV_USE_SW_FOR_API === 'true'
 ) {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js');
+    navigator.serviceWorker.register('sw.js');
   }
 }

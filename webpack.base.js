@@ -25,7 +25,7 @@ module.exports = {
     chunkFilename: production
       ? 'scripts/[name]-[chunkhash].js'
       : 'scripts/[name].js',
-    publicPath: '/',
+    publicPath: production ? '/projects/pokemon/' : '/',
   },
 
   plugins: [

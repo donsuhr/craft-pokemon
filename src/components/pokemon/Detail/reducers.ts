@@ -9,7 +9,7 @@ import {
 } from './types';
 import { ActionTypes } from './actions-sync';
 
-const defaultImg = '/img/default.png';
+const defaultImg = 'img/default.png';
 
 const detailsState: IDetails = {
   name: '',

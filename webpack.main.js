@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
-const { js, scss, css } = require('./webpack.rules');
+const { js, scss, css, file } = require('./webpack.rules');
 
 const production = process.env.NODE_ENV === 'production';
 
@@ -22,6 +22,7 @@ const plugins = [
     patterns: [
       { from: 'src/site.webmanifest' },
       { from: 'src/icons', to: 'icons' },
+      { from: 'src/font', to: 'font' },
       { from: 'src/img', to: 'img' },
       {
         from: '**/*.json',
@@ -47,6 +48,7 @@ if (production) {
   plugins.push(
     new InjectManifest({
       swSrc: './src/sw.js',
+      exclude: [/fixtures/, /DS_Store/],
     }),
   );
 } else {
@@ -89,6 +91,6 @@ module.exports = {
     maxAssetSize: 512000,
   },
   module: {
-    rules: [js, scss, css],
+    rules: [js, scss, css, file],
   },
 };
