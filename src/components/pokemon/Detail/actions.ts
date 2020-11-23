@@ -31,8 +31,8 @@ const fetcher: FetcherFn = async ({ id, dispatch }, done) => {
   done();
 };
 
-// concurrency, rateLimit x workers per second
-const q = qrate(fetcher, 4, 4);
+// concurrency: n at a time, rateLimit: n calls per second
+const q = qrate(fetcher, 4, 10);
 
 const fetchItem = (id: string): AppThunk => (dispatch) => {
   dispatch(request(id));
