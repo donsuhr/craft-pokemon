@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDetailState } from '@/store/selectors';
-import { ApplicationState, AsyncStatus } from '@/store/types';
+import { ApplicationState, AsyncStatus, LocationState } from '@/store/types';
+import { QUERY_KEY_SEARCH } from '@/components/Search';
 import { getItemById } from '../Detail/reducers';
 import { fetchIfNeeded } from '../Detail/actions';
 import Loading from '../../Loading';
@@ -15,12 +16,27 @@ interface Props {
   name: string;
 }
 
+function checkLocationForSearchTerm(location: LocationState) {
+  const query = new URLSearchParams(location.search);
+  return !!query.get(QUERY_KEY_SEARCH);
+}
+
 const ListItem = ({ id, name }: Props) => {
   const dispatch = useDispatch();
   const location = useLocation();
+
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
+    if (checkLocationForSearchTerm(location)) {
+      const timeout = setTimeout(() => {
+        dispatch(fetchIfNeeded({ id, requestor: Requestor.ListItem }));
+      }, 1500);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
     dispatch(fetchIfNeeded({ id, requestor: Requestor.ListItem }));
-  }, []);
+  }, [location]);
 
   const {
     status,
