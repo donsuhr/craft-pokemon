@@ -11,9 +11,12 @@ export interface AppProps {
   store: Store<ApplicationState>;
 }
 
+/* eslint-disable-next-line no-underscore-dangle,@typescript-eslint/naming-convention */
+declare const __webpack_public_path__: string;
+
 const App = ({ store }: AppProps) => (
   <Provider store={store}>
-    <Router>
+    <Router basename={__webpack_public_path__}>
       <Switch>
         <Route path="/detail/:id?">
           <Details />
