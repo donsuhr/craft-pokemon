@@ -13,3 +13,4 @@ __snapshots__/
 *.scss.d.ts
 wip.txt
 /stats.json
+tmp.js
