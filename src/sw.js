@@ -1,9 +1,9 @@
-/* global serviceWorkerVersion */
+/* global serviceWorkerVersion, __webpack_public_path__ */
 /* eslint-env serviceworker */
 /* check for lingering sw: chrome://serviceworker-internals/ */
 import { skipWaiting, clientsClaim, setCacheNameDetails } from 'workbox-core';
-import { precacheAndRoute } from 'workbox-precaching';
-import { registerRoute } from 'workbox-routing';
+import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
+import { registerRoute, NavigationRoute } from 'workbox-routing';
 import { CacheFirst } from 'workbox-strategies';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { ExpirationPlugin } from 'workbox-expiration';
@@ -43,6 +43,12 @@ if (
   process.env.DEV_USE_SW_FOR_RUNTIME === 'true'
 ) {
   precacheAndRoute(assets || []);
+  precacheAndRoute(['https://pokeapi.co/api/v2/pokemon/?limit=2000']);
+  const handler = createHandlerBoundToURL(
+    `${__webpack_public_path__}index.html`,
+  );
+  const navigationRoute = new NavigationRoute(handler);
+  registerRoute(navigationRoute);
 }
 
 function getEndpointLastPart(url) {
