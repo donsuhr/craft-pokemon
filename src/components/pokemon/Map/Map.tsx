@@ -25,6 +25,10 @@ const Map = ({ id }: Props) => {
     return <Loading withBg>Loading...</Loading>;
   }
 
+  if (status === AsyncStatus.offline) {
+    return <p>Offline...</p>;
+  }
+
   const count =
     status === AsyncStatus.succeeded
       ? locations.length

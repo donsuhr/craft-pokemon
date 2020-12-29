@@ -32,6 +32,11 @@ const item = (state = itemState, action: ActionTypes) => {
         status: AsyncStatus.failed,
         error: action.payload.error.message,
       };
+    case PokemonMapActionTypes.OFFLINE:
+      return {
+        ...state,
+        status: AsyncStatus.offline,
+      };
     /* istanbul ignore next */
     default:
       return state;
@@ -47,6 +52,7 @@ export const byId: (
   switch (action.type) {
     case PokemonMapActionTypes.RECEIVE:
     case PokemonMapActionTypes.REQUEST:
+    case PokemonMapActionTypes.OFFLINE:
     case PokemonMapActionTypes.ERROR:
       /* eslint-disable-next-line no-case-declarations */
       const { id } = action.payload;

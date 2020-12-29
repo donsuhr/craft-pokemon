@@ -1,7 +1,12 @@
 import { getStateFixture, mockStoreCreator } from '@/store/mock-store-creator';
 import { AsyncStatus } from '@/store/types';
 import { fetchIfNeeded } from './actions';
-import { receiveSuccess, request, receiveError } from './actions.sync';
+import {
+  receiveSuccess,
+  request,
+  receiveError,
+  receiveOffline,
+} from './actions.sync';
 import { PokemonMapActionTypes } from './types';
 
 describe('pokemon map actions', () => {
@@ -33,6 +38,14 @@ describe('pokemon map actions', () => {
     expect(receiveError(error, '1')).toMatchObject(expectedAction);
   });
 
+  it('Handles offline', () => {
+    const expectedAction = {
+      type: PokemonMapActionTypes.OFFLINE,
+      payload: { id: '1' },
+    };
+    expect(receiveOffline('1')).toMatchObject(expectedAction);
+  });
+
   it('should fetchItemsIfNeeded false', () => {
     const state = getStateFixture();
     const store = mockStoreCreator(state);
@@ -57,6 +70,32 @@ describe('pokemon map actions', () => {
       {
         type: PokemonMapActionTypes.RECEIVE,
         payload: { data, id: '1' },
+      },
+    ];
+    await new Promise(setImmediate);
+
+    expect(store.getActions()[0]).toMatchObject(expectedActions[0]);
+    expect(store.getActions()[1]).toMatchObject(expectedActions[1]);
+  });
+
+  it('dispatch offline with some  offline json', async () => {
+    const data = { offline: true };
+    global.fetch = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        json: () => data,
+        status: 200,
+      }),
+    );
+
+    const state = getStateFixture();
+    state.pokemonMap.byId['1'].status = AsyncStatus.initial;
+
+    const store = mockStoreCreator(state);
+    store.dispatch(fetchIfNeeded('1'));
+    const expectedActions = [
+      { type: PokemonMapActionTypes.REQUEST },
+      {
+        type: PokemonMapActionTypes.OFFLINE,
       },
     ];
     await new Promise(setImmediate);

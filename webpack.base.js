@@ -33,7 +33,7 @@ module.exports = {
     new webpack.DefinePlugin({
       serviceWorkerVersion: production
         ? `"${new Date().toISOString()}"`
-        : `"dev v9"`,
+        : `"dev-v10"`,
       'process.env.DEV_USE_SW_FOR_RUNTIME': JSON.stringify(
         process.env.DEV_USE_SW_FOR_RUNTIME || 'false',
       ),

@@ -3,7 +3,12 @@ import { AppThunk, AsyncStatus } from '@/store/types';
 import { getMapState } from '@/store/selectors';
 import { checkFetchResponse, parseJSON } from '@/service/util';
 import { getItemById, PokemonMapState } from './reducers';
-import { request, receiveSuccess, receiveError } from './actions.sync';
+import {
+  request,
+  receiveSuccess,
+  receiveError,
+  receiveOffline,
+} from './actions.sync';
 
 function fetchItem(id: string): AppThunk {
   return (dispatch) => {
@@ -20,7 +25,14 @@ function fetchItem(id: string): AppThunk {
     })
       .then(checkFetchResponse)
       .then(parseJSON)
-      .then((json) => dispatch(receiveSuccess(json, id)))
+      .then((json) => {
+        if (json.offline) {
+          dispatch(receiveOffline(id));
+        } else {
+          dispatch(receiveSuccess(json, id));
+        }
+      })
+
       .catch((e) => {
         dispatch(receiveError(e, id));
       });

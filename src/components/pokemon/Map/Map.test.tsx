@@ -59,4 +59,13 @@ describe('Map', () => {
     render(<Map id="1" />, { store });
     expect(screen.getByText(/error/i)).toBeInTheDocument();
   });
+
+  test('it shows offline', () => {
+    const state = getStateFixture();
+    state.pokemonMap.byId[1].status = AsyncStatus.offline;
+    const store = mockStoreCreator(state);
+
+    render(<Map id="1" />, { store });
+    expect(screen.getByText(/offline/i)).toBeInTheDocument();
+  });
 });

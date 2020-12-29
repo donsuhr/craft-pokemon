@@ -34,6 +34,17 @@ describe('pokemon map reducer', () => {
     });
   });
 
+  it('will set an offline', () => {
+    expect(
+      byId(undefined, {
+        type: PokemonMapActionTypes.OFFLINE,
+        payload: { id: '3' },
+      }),
+    ).toMatchObject({
+      '3': { status: AsyncStatus.offline },
+    });
+  });
+
   it('will set an error', () => {
     const someError = new Error('hello world');
     expect(
