@@ -70,6 +70,5 @@ const stateFixture: ApplicationState = {
   },
 };
 
-export const getStateFixture = (): ApplicationState => {
-  return JSON.parse(JSON.stringify(stateFixture));
-};
+export const getStateFixture = (): ApplicationState =>
+  JSON.parse(JSON.stringify(stateFixture));

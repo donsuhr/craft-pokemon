@@ -9,8 +9,24 @@ module.exports = {
     browser: true,
     node: true,
   },
-  plugins: ['@typescript-eslint'],
-  extends: ['airbnb-typescript', 'prettier', 'prettier/@typescript-eslint'],
+  plugins: [
+    '@typescript-eslint',
+    'eslint-comments',
+    'jest',
+    // 'promise',
+    // 'unicorn',
+  ],
+  extends: [
+    'airbnb-typescript',
+    // 'plugin:@typescript-eslint/recommended',
+    // 'plugin:eslint-comments/recommended',
+    // 'plugin:jest/recommended',
+    // 'plugin:promise/recommended',
+    // 'plugin:unicorn/recommended',
+    'prettier',
+    // 'prettier/react',
+    'prettier/@typescript-eslint',
+  ],
   rules: {
     'import/prefer-default-export': 'off',
     'import/no-extraneous-dependencies': [

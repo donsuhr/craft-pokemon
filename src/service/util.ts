@@ -7,6 +7,4 @@ export const checkFetchResponse = (response: Response) => {
   throw error;
 };
 
-export const parseJSON = (response: Response) => {
-  return response.json();
-};
+export const parseJSON = (response: Response) => response.json();

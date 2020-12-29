@@ -24,7 +24,7 @@ function GooglMapContainer({ locations = [] }: Props) {
 
   // const [map, setMap] = React.useState(null);
 
-  const onLoad = React.useCallback(function callback(mapInstance) {
+  const onLoad = React.useCallback((mapInstance) => {
     const bounds = new window.google.maps.LatLngBounds();
 
     for (let i = 0; i < markerLatLngs.length; i += 1) {
@@ -34,7 +34,7 @@ function GooglMapContainer({ locations = [] }: Props) {
     // setMap(mapInstance);
   }, []);
 
-  const onUnmount = React.useCallback(function callback() {
+  const onUnmount = React.useCallback(() => {
     // setMap(null);
   }, []);
 
@@ -52,9 +52,9 @@ function GooglMapContainer({ locations = [] }: Props) {
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
-      {markerLatLngs.map((x) => {
-        return <Marker key={x.key} position={x} />;
-      })}
+      {markerLatLngs.map((x) => (
+        <Marker key={x.key} position={x} />
+      ))}
     </GoogleMap>
   );
 }
