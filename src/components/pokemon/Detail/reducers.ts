@@ -10,6 +10,7 @@ import {
 import { ActionTypes } from './actions-sync';
 
 const defaultImg = 'img/default.png';
+const offlineImg = 'img/offline.png';
 
 const detailsState: IDetails = {
   name: '',
@@ -32,27 +33,22 @@ const itemState: AsyncDetailsType = {
   error: null,
 };
 
-const getImgFromData = (data: any) => {
-  return (
-    data?.sprites?.other?.['official-artwork']?.front_default ||
-    data?.sprites?.front_default ||
-    defaultImg
-  );
-};
+const getImgFromData = (data: any) =>
+  data?.sprites?.other?.['official-artwork']?.front_default ||
+  data?.sprites?.front_default ||
+  defaultImg;
 
-const details = (state: IDetails, data: any) => {
-  return {
-    ...state,
-    id: data.id,
-    name: data.name,
-    img: getImgFromData(data),
-    height: data.height,
-    weight: data.weight,
-    baseExperience: data.base_experience,
-    types: data.types.map((x: IType) => x.type.name),
-    abilities: data.abilities.map((x: IAbility) => x.ability.name),
-  };
-};
+const details = (state: IDetails, data: any) => ({
+  ...state,
+  id: data.id,
+  name: data.name,
+  img: getImgFromData(data),
+  height: data.height,
+  weight: data.weight,
+  baseExperience: data.base_experience,
+  types: data.types.map((x: IType) => x.type.name),
+  abilities: data.abilities.map((x: IAbility) => x.ability.name),
+});
 
 const processItem = (state = itemState, action: ActionTypes) => {
   switch (action.type) {
@@ -71,6 +67,10 @@ const processItem = (state = itemState, action: ActionTypes) => {
     case PokemonDetailsActionTypes.OFFLINE:
       return {
         ...state,
+        details: {
+          ...state.details,
+          img: offlineImg,
+        },
         status: AsyncStatus.offline,
       };
     case PokemonDetailsActionTypes.ERROR:
